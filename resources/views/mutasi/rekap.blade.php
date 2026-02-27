@@ -20,7 +20,6 @@
             </a>
         </div>
 
-        {{-- Summary cards --}}
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
             <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
                 <p class="text-xs text-gray-500 mb-1">Total Komponen</p>
@@ -44,7 +43,6 @@
             </div>
         </div>
 
-        {{-- Table --}}
         <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
             <div class="px-5 py-3.5 border-b border-gray-800 flex items-center justify-between">
                 <p class="text-sm font-semibold text-gray-200">Status Stok Per Komponen</p>

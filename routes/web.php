@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MutasiController;
 use App\Models\MasterKomponen;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +39,4 @@ Route::prefix('mutasi')->name('mutasi.')->group(function () {
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/dashboard', [AuthController::class,'dashboard'])->name('dashboard');
+Route::get('/dashboard', action: [DashboardController::class,'index'])->name('dashboard');
