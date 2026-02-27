@@ -176,7 +176,14 @@
                 </div> -->
 
             </div>
-            <div class="px-3 py-4 border-t border-slate-800/60">
+            <div class="px-3 border-t border-slate-800/60">
+                    <button type="button" class="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400
+                               hover:text-blue-400 hover:bg-blue-500/10 transition-all duration-200 text-left">
+                        <i class="ri-settings-3-line text-base text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+                        <span>Pengaturan</span>
+                    </button>
+            </div>
+            <div class="px-3 py-4">
                 <form id="logoutForm" action="/logout" method="POST">
                     @csrf
                     <button type="button" class="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400
