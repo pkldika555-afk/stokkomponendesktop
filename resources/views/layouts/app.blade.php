@@ -179,7 +179,7 @@
             <div class="px-3 border-t border-slate-800/60">
                 <a href="{{ route('backup.index') }}" class="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400
                                hover:text-blue-400 hover:bg-blue-500/10 transition-all duration-200 text-left
-                                {{ request()->is('backup*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}
+                                {{ request()->is('backup*') ? 'active-link text-white' : 'text-slate-400 hover:blue -white hover:bg-slate-800/70' }}
                                ">
                     <i
                         class="ri-settings-3-line text-base text-slate-500 group-hover:text-blue-400 transition-colors"></i>
