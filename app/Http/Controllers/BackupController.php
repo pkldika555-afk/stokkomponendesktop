@@ -12,7 +12,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class BackupController extends Controller
 {
-    // ── Halaman utama ────────────────────────────────────────
     public function index()
     {
         $stats = [
@@ -24,7 +23,6 @@ class BackupController extends Controller
         return view('backup.index', compact('stats'));
     }
 
-    // ── BACKUP → download .json ──────────────────────────────
     public function backup()
     {
         $data = [
@@ -52,7 +50,6 @@ class BackupController extends Controller
         ]);
     }
 
-    // ── RESTORE ← upload .json ───────────────────────────────
     public function restore(Request $request)
     {
         $request->validate([
@@ -66,15 +63,12 @@ class BackupController extends Controller
             return back()->withErrors(['backup_file' => 'File backup tidak valid atau rusak.']);
         }
 
-        // Validasi struktur
-        $required = ['departemen', 'komponen', 'mutasi'];
-        foreach ($required as $key) {
+        foreach (['departemen', 'komponen', 'mutasi'] as $key) {
             if (!array_key_exists($key, $data)) {
-                return back()->withErrors(['backup_file' => "File backup tidak lengkap: koleksi '{$key}' tidak ditemukan."]);
+                return back()->withErrors(['backup_file' => "File backup tidak lengkap: '{$key}' tidak ditemukan."]);
             }
         }
 
-        // Helper inline: konversi format datetime ISO ke MySQL
         $clean = function (array $row): array {
             foreach (['created_at', 'updated_at'] as $col) {
                 if (!array_key_exists($col, $row)) continue;
@@ -89,8 +83,7 @@ class BackupController extends Controller
                     $row[$col] = null;
                 }
             }
-            // Kolom tanggal (mutasi_barang)
-            if (!empty($row['tanggal'])) {
+            if (isset($row['tanggal']) && !empty($row['tanggal'])) {
                 try {
                     $row['tanggal'] = \Carbon\Carbon::parse($row['tanggal'])->format('Y-m-d');
                 } catch (\Exception $e) {
@@ -100,48 +93,50 @@ class BackupController extends Controller
             return $row;
         };
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
         try {
-            DB::transaction(function () use ($data, $clean) {
-                // Nonaktifkan FK sementara
-                DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::beginTransaction();
 
-                MutasiBarang::query()->delete();
-                MasterKomponen::query()->delete();
-                Departemen::query()->delete();
+            MutasiBarang::query()->delete();
+            MasterKomponen::query()->delete();
+            Departemen::query()->delete();
 
-                foreach ($data['departemen'] as $row) {
-                    Departemen::insert($clean($row));
-                }
-                foreach ($data['komponen'] as $row) {
-                    MasterKomponen::insert($clean($row));
-                }
-                foreach ($data['mutasi'] as $row) {
-                    MutasiBarang::insert($clean($row));
-                }
+            foreach ($data['departemen'] as $row) {
+                Departemen::insert($clean($row));
+            }
+            foreach ($data['komponen'] as $row) {
+                MasterKomponen::insert($clean($row));
+            }
+            foreach ($data['mutasi'] as $row) {
+                MutasiBarang::insert($clean($row));
+            }
 
-                DB::statement('SET FOREIGN_KEY_CHECKS=1');
-
-                foreach ([['departemen','id'],['master_komponen','id'],['mutasi_barang','id']] as [$tbl,$pk]) {
-                    $max = DB::table($tbl)->max($pk) ?? 0;
-                    DB::statement("ALTER TABLE `{$tbl}` AUTO_INCREMENT = " . ($max + 1));
-                }
-            });
-
-            return back()->with('success',
-                "Restore berhasil! " .
-                count($data['departemen']) . " departemen, " .
-                count($data['komponen'])   . " komponen, " .
-                count($data['mutasi'])     . " mutasi dipulihkan."
-            );
+            DB::commit();
 
         } catch (\Exception $e) {
+            DB::rollBack();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
             return back()->withErrors(['backup_file' => 'Restore gagal: ' . $e->getMessage()]);
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        foreach ([['departemen','id'],['master_komponen','id'],['mutasi_barang','id']] as [$tbl, $pk]) {
+            $max = DB::table($tbl)->max($pk) ?? 0;
+            DB::statement("ALTER TABLE `{$tbl}` AUTO_INCREMENT = " . ($max + 1));
+        }
+
+        return back()->with('success',
+            "Restore berhasil! " .
+            count($data['departemen']) . " departemen, " .
+            count($data['komponen'])   . " komponen, " .
+            count($data['mutasi'])     . " mutasi dipulihkan."
+        );
     }
+
     public function exportExcel()
     {
         $filename = 'laporan-' . now()->format('Ymd-His') . '.xlsx';
         return Excel::download(new LaporanExport(), $filename);
     }
-
 }
