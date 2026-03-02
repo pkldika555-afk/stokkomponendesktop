@@ -165,7 +165,7 @@
         }
     </style>
     <div class="min-h-screen bg-gray-950 text-gray-100 font-sans">
-        <div class="max-w-6xl mx-auto px-6 py-10">
+        <div class="max-w-8xl mx-auto  py-10">
             <div class="flex items-start justify-between mb-8">
                 <div>
                     <p class="text-xs uppercase tracking-[0.3em] text-indigo-400 font-semibold mb-1">Master Data</p>

@@ -157,7 +157,7 @@
     </style>
 
     <div class="min-h-screen bg-gray-950 text-gray-100 font-sans">
-        <div class="max-w-7xl mx-auto px-6 py-8">
+        <div class="max-w-8xl mx-auto  py-10">
 
             <div class="flex items-center justify-between mb-6">
                 <div>
