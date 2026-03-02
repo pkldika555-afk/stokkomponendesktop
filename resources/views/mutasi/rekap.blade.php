@@ -270,7 +270,7 @@
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<script src="{{ asset('js/chart.js') }}"></script>
 <script>
 
 const mutasiHarian = @json($mutasiHarian);  
