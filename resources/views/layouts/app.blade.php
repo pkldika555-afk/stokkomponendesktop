@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistem Manajemen Komponen</title>
- 
+
     <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
     <!-- <link
@@ -177,11 +177,12 @@
 
             </div>
             <div class="px-3 border-t border-slate-800/60">
-                    <button type="button" class="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400
+                <a href="{{ route('backup.index') }}" class="group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400
                                hover:text-blue-400 hover:bg-blue-500/10 transition-all duration-200 text-left">
-                        <i class="ri-settings-3-line text-base text-slate-500 group-hover:text-blue-400 transition-colors"></i>
-                        <span>Pengaturan</span>
-                    </button>
+                    <i
+                        class="ri-settings-3-line text-base text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+                    <span>Backup</span>
+                </a>
             </div>
             <div class="px-3 py-4">
                 <form id="logoutForm" action="/logout" method="POST">
@@ -203,7 +204,7 @@
     <main id="main" class="min-h-screen pt-14 lg:pt-0 lg:pl-64 transition-all duration-300">
         <div class="p-6">
             @yield('content')
-   
+
         </div>
     </main>
     <script src="{{ asset('js/app.js') }}"></script>

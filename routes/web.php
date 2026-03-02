@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\LaporanController;
@@ -40,3 +41,10 @@ Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', action: [DashboardController::class,'index'])->name('dashboard');
+
+Route::prefix('backup')->name('backup.')->group(function () {
+    Route::get('/',        [BackupController::class, 'index'])  ->name('index');
+    Route::get('/download',  [BackupController::class, 'backup']) ->name('download');
+    Route::post('/restore',       [BackupController::class, 'restore'])  ->name('restore');
+    Route::get('/excel',   [BackupController::class, 'exportExcel'])  ->name('excel');
+})->middleware('auth');
