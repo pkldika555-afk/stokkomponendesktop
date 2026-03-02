@@ -46,5 +46,5 @@ Route::prefix('backup')->name('backup.')->group(function () {
     Route::get('/',        [BackupController::class, 'index'])  ->name('index');
     Route::get('/download',  [BackupController::class, 'backup']) ->name('download');
     Route::post('/restore',       [BackupController::class, 'restore'])  ->name('restore');
-    Route::get('/excel',   [BackupController::class, 'exportExcel'])  ->name('excel');
+    Route::post('/excel',   [BackupController::class, 'exportExcel'])  ->name('excel');
 })->middleware('auth');

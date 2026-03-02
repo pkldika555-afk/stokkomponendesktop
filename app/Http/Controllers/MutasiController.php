@@ -80,28 +80,44 @@ class MutasiController extends Controller
     }
     public function rekap(Request $request)
     {
-        $komponen = MasterKomponen::with(['departemen'])
-            ->withCount('mutasi')
-            ->orderBy('nama_komponen')
-            ->get()
-            ->map(function ($k) {
-                $k->stok_sekarang = $k->stok;
-                return $k;
-            });
-            
-        $totalKomponen = $komponen->count();
-        $stokRendah = $komponen->filter(fn($k) => $k->isStokRendah())->count();
-        $totalMasuk = MutasiBarang::whereIn('jenis', MutasiBarang::JENIS_MASUK)
-            ->whereMonth('tanggal', now()->month)->sum('jumlah');
-        $totalKeluar = MutasiBarang::whereIn('jenis', MutasiBarang::JENIS_KELUAR)
-            ->whereMonth('tanggal', now()->month)->sum('jumlah');
+        $bulan = (int) ($request->bulan ?? now()->month);
+        $tahun = (int) ($request->tahun ?? now()->year);
 
-        return view('mutasi.rekap', compact(
-            'komponen',
-            'totalKomponen',
-            'stokRendah',
-            'totalMasuk',
-            'totalKeluar'
-        ));
+        $komponen = MasterKomponen::with('departemen')->orderBy('nama_komponen')->get();
+        $totalKomponen = $komponen->count();
+
+        $mutasiBulanIni = MutasiBarang::whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->get();
+
+        $totalMasuk = $mutasiBulanIni->filter(fn($m) => in_array($m->jenis, MutasiBarang::JENIS_MASUK))->sum('jumlah');
+        $totalKeluar = $mutasiBulanIni->reject(fn($m) => in_array($m->jenis, MutasiBarang::JENIS_MASUK))->sum('jumlah');
+
+        $stokRendah = $komponen->filter(fn($k) => $k->stok_sekarang > 0 && $k->stok_sekarang <= $k->stok_minimal)->count();
+
+        $statusNormal = $komponen->filter(fn($k) => $k->stok_sekarang > $k->stok_minimal)->count();
+        $statusRendah = $komponen->filter(fn($k) => $k->stok_sekarang > 0 && $k->stok_sekarang <= $k->stok_minimal)->count();
+        $statusHabis = $komponen->filter(fn($k) => $k->stok_sekarang <= 0)->count();
+
+        $daysInMonth = \Carbon\Carbon::createFromDate($tahun, $bulan, 1)->daysInMonth;
+
+        $masukPerHari = $mutasiBulanIni->filter(fn($m) => in_array($m->jenis, MutasiBarang::JENIS_MASUK))
+            ->groupBy(fn($m) => \Carbon\Carbon::parse($m->tanggal)->format('d'))
+            ->map->sum('jumlah');
+
+        $keluarPerHari = $mutasiBulanIni->reject(fn($m) => in_array($m->jenis, MutasiBarang::JENIS_MASUK))
+            ->groupBy(fn($m) => \Carbon\Carbon::parse($m->tanggal)->format('d'))
+            ->map->sum('jumlah');
+
+        $mutasiHarian = collect(range(1, $daysInMonth))->map(function ($d) use ($masukPerHari, $keluarPerHari, $bulan, $tahun) {
+            $key = str_pad($d, 2, '0', STR_PAD_LEFT);
+            return [
+                'tanggal' => $key . '/' . str_pad($bulan, 2, '0', STR_PAD_LEFT),
+                'masuk' => $masukPerHari[$key] ?? 0,
+                'keluar' => $keluarPerHari[$key] ?? 0,
+            ];
+        });
+
+        return view('mutasi.rekap', compact('komponen','totalKomponen','totalMasuk','totalKeluar', 'stokRendah','statusNormal','statusRendah','statusHabis','mutasiHarian','bulan','tahun',));
     }
 }

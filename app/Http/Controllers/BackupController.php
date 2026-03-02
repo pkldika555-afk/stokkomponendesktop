@@ -16,9 +16,9 @@ class BackupController extends Controller
     {
         $stats = [
             'departemen' => Departemen::count(),
-            'komponen'   => MasterKomponen::count(),
-            'mutasi'     => MutasiBarang::count(),
-            'last_backup'=> session('last_backup'),
+            'komponen' => MasterKomponen::count(),
+            'mutasi' => MutasiBarang::count(),
+            'last_backup' => session('last_backup'),
         ];
         return view('backup.index', compact('stats'));
     }
@@ -27,25 +27,25 @@ class BackupController extends Controller
     {
         $data = [
             'meta' => [
-                'app'        => config('app.name'),
-                'version'    => '1.0',
+                'app' => config('app.name'),
+                'version' => '1.0',
                 'created_at' => now()->toISOString(),
                 'total' => [
                     'departemen' => Departemen::count(),
-                    'komponen'   => MasterKomponen::count(),
-                    'mutasi'     => MutasiBarang::count(),
+                    'komponen' => MasterKomponen::count(),
+                    'mutasi' => MutasiBarang::count(),
                 ],
             ],
             'departemen' => Departemen::all()->toArray(),
-            'komponen'   => MasterKomponen::all()->toArray(),
-            'mutasi'     => MutasiBarang::all()->toArray(),
+            'komponen' => MasterKomponen::all()->toArray(),
+            'mutasi' => MutasiBarang::all()->toArray(),
         ];
 
-        $json     = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $filename = 'backup-' . now()->format('Ymd-His') . '.json';
 
         return response($json, 200, [
-            'Content-Type'        => 'application/json',
+            'Content-Type' => 'application/json',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ]);
     }
@@ -57,7 +57,7 @@ class BackupController extends Controller
         ]);
 
         $content = file_get_contents($request->file('backup_file')->getRealPath());
-        $data    = json_decode($content, true);
+        $data = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || !isset($data['meta'])) {
             return back()->withErrors(['backup_file' => 'File backup tidak valid atau rusak.']);
@@ -71,7 +71,8 @@ class BackupController extends Controller
 
         $clean = function (array $row): array {
             foreach (['created_at', 'updated_at'] as $col) {
-                if (!array_key_exists($col, $row)) continue;
+                if (!array_key_exists($col, $row))
+                    continue;
                 $val = $row[$col];
                 if ($val === null || $val === '' || $val === 'null') {
                     $row[$col] = null;
@@ -121,22 +122,38 @@ class BackupController extends Controller
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
-        foreach ([['departemen','id'],['master_komponen','id'],['mutasi_barang','id']] as [$tbl, $pk]) {
+        foreach ([['departemen', 'id'], ['master_komponen', 'id'], ['mutasi_barang', 'id']] as [$tbl, $pk]) {
             $max = DB::table($tbl)->max($pk) ?? 0;
             DB::statement("ALTER TABLE `{$tbl}` AUTO_INCREMENT = " . ($max + 1));
         }
 
-        return back()->with('success',
+        return back()->with(
+            'success',
             "Restore berhasil! " .
             count($data['departemen']) . " departemen, " .
-            count($data['komponen'])   . " komponen, " .
-            count($data['mutasi'])     . " mutasi dipulihkan."
+            count($data['komponen']) . " komponen, " .
+            count($data['mutasi']) . " mutasi dipulihkan."
         );
     }
 
-    public function exportExcel()
+    public function exportExcel(Request $request)
     {
-        $filename = 'laporan-' . now()->format('Ymd-His') . '.xlsx';
-        return Excel::download(new LaporanExport(), $filename);
+        $request->validate([
+            'bulan' => 'required|integer|min:1|max:12',
+            'tahun' => 'required|integer|min:2000|max:' . now()->year,
+        ]);
+
+        $bulan = (int) $request->bulan;
+        $tahun = (int) $request->tahun;
+
+        $namaBulan = \Carbon\Carbon::createFromDate($tahun, $bulan, 1)->translatedFormat('F_Y');
+        $filename = "Laporan_Gudang_{$namaBulan}.xlsx";
+
+        return Excel::download(
+            new LaporanExport($bulan, $tahun),
+            $filename,
+            \Maatwebsite\Excel\Excel::XLSX,
+            ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+        );
     }
 }
