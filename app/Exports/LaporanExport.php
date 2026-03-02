@@ -90,7 +90,7 @@ class LaporanMutasiSheet implements
             default          => $m->jenis,
         };
         return [
-            $no, $m->tanggal->format('d/m/Y'),
+            $no, $m->tanggal,
             $m->komponen->kode_komponen ?? '-',
             $m->komponen->nama_komponen ?? '-',
             $label, $isMasuk ? 'Masuk' : 'Keluar', $m->jumlah,
