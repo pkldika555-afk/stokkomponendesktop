@@ -18,7 +18,8 @@ class MasterKomponen extends Model
         'stok_minimal',
         'rak',
         'lokasi',
-        'departemen_id'
+        'departemen_id',
+        'harga'
     ];
     // hanya dua tipe sekarang, untuk konsistensi dengan tabel mutasi
     const JENIS_MASUK = ['masuk'];
