@@ -245,7 +245,7 @@
                                 <div class="text-center">
                                     <p class="text-sm text-gray-400 group-hover:text-gray-300 transition-colors"
                                         id="dropzone-label">
-                                        Klik untuk pilih file backup
+                                        <strong>Klik</strong> atau <strong>Drag</strong> untuk pilih file backup
                                     </p>
                                     <p class="text-xs text-gray-600 mt-0.5">Format: .json — Maks. 20MB</p>
                                 </div>
