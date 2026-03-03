@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Departemen;
 use App\Models\MasterKomponen;
 use Illuminate\Http\Request;
+use Storage;
 use Str;
 
 class MasterController extends Controller
@@ -42,10 +43,10 @@ class MasterController extends Controller
         ]);
         $komponen = MasterKomponen::create($validate);
         if ($request->hasFile('gambar')) {
-        $filename = Str::slug($komponen->kode_komponen) . '.' . $request->gambar->extension();
-        $request->gambar->storeAs('', $filename, 'app_data_images');
-        $komponen->update(['gambar' => $filename]);
-    }
+            $filename = Str::slug($komponen->kode_komponen) . '.' . $request->gambar->extension();
+            $request->gambar->storeAs('', $filename, 'app_data_images');
+            $komponen->update(['gambar' => $filename]);
+        }
         return redirect()->route('komponen.index')->with('success', 'Data berhasil ditambahkan');
     }
     public function edit($id)
@@ -56,8 +57,9 @@ class MasterController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $komponen = MasterKomponen::findOrFail($id);
         $validate = $request->validate([
-            'kode_komponen' => 'required|max:255',
+            'kode_komponen' => 'required|unique:master_komponen,kode_komponen,' . $komponen->id,
             'nama_komponen' => 'required',
             'tipe' => 'required',
             'satuan' => 'required',
@@ -68,8 +70,18 @@ class MasterController extends Controller
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        MasterKomponen::findOrFail($id)->update($validate);
-        
+        $komponen->update($validate);
+
+        if ($request->hasFile('gambar')) {
+ 
+            if ($komponen->gambar) {
+                Storage::disk('app_data_images')->delete($komponen->gambar);
+            }
+
+            $filename = Str::slug($komponen->kode_komponen) . '.' . $request->gambar->extension();
+            $request->gambar->storeAs('', $filename, 'app_data_images');
+            $komponen->update(['gambar' => $filename]);
+        }
         return redirect()->route('komponen.index')->with('success', 'Data berhasil diubah');
     }
     public function destroy($id)
