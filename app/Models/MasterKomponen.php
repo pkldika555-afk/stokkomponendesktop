@@ -37,4 +37,14 @@ class MasterKomponen extends Model
     {
         return $this->stok <= $this->stok_minimal;
     }
+    public function getGambarUrlAttribute()
+    {
+        if (!$this->gambar) {
+            return asset('images/default-komponen.png'); 
+        }
+
+        return 'file:///' . base_path("app_data/images/{$this->gambar}");
+
+
+    }
 }
