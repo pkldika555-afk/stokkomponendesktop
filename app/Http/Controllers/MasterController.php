@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Departemen;
 use App\Models\MasterKomponen;
 use Illuminate\Http\Request;
+use Str;
 
 class MasterController extends Controller
 {
@@ -39,7 +40,12 @@ class MasterController extends Controller
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        MasterKomponen::create($validate);
+        $komponen = MasterKomponen::create($validate);
+        if ($request->hasFile('gambar')) {
+        $filename = Str::slug($komponen->kode_komponen) . '.' . $request->gambar->extension();
+        $request->gambar->storeAs('', $filename, 'app_data_images');
+        $komponen->update(['gambar' => $filename]);
+    }
         return redirect()->route('komponen.index')->with('success', 'Data berhasil ditambahkan');
     }
     public function edit($id)
@@ -60,8 +66,10 @@ class MasterController extends Controller
             'lokasi' => 'required',
             'id_departemen' => 'required',
             'harga' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         MasterKomponen::findOrFail($id)->update($validate);
+        
         return redirect()->route('komponen.index')->with('success', 'Data berhasil diubah');
     }
     public function destroy($id)
