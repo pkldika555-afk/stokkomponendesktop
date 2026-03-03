@@ -16,10 +16,10 @@ class BackupController extends Controller
     public function index()
     {
         $stats = [
-            'departemen'  => Departemen::count(),
-            'komponen'    => MasterKomponen::count(),
-            'mutasi'      => MutasiBarang::count(),
-            'users'       => User::count(),
+            'departemen' => Departemen::count(),
+            'komponen' => MasterKomponen::count(),
+            'mutasi' => MutasiBarang::count(),
+            'users' => User::count(),
             'last_backup' => session('last_backup'),
         ];
         return view('backup.index', compact('stats'));
@@ -29,27 +29,27 @@ class BackupController extends Controller
     {
         $data = [
             'meta' => [
-                'app'        => config('app.name'),
-                'version'    => '1.0',
+                'app' => config('app.name'),
+                'version' => '1.0',
                 'created_at' => now()->toISOString(),
                 'total' => [
                     'departemen' => Departemen::count(),
-                    'komponen'   => MasterKomponen::count(),
-                    'mutasi'     => MutasiBarang::count(),
-                    'users'      => User::count(),
+                    'komponen' => MasterKomponen::count(),
+                    'mutasi' => MutasiBarang::count(),
+                    'users' => User::count(),
                 ],
             ],
-            'users'      => User::all()->toArray(),
+            'users' => User::all()->makeVisible(['password', 'remember_token'])->toArray(),
             'departemen' => Departemen::all()->toArray(),
-            'komponen'   => MasterKomponen::all()->toArray(),
-            'mutasi'     => MutasiBarang::all()->toArray(),
+            'komponen' => MasterKomponen::all()->toArray(),
+            'mutasi' => MutasiBarang::all()->toArray(),
         ];
 
-        $json     = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $filename = 'backup-' . now()->format('Ymd-His') . '.json';
 
         return response($json, 200, [
-            'Content-Type'        => 'application/json',
+            'Content-Type' => 'application/json',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ]);
     }
@@ -95,7 +95,7 @@ class BackupController extends Controller
     private function processRestore($file): array
     {
         $content = file_get_contents($file->getRealPath());
-        $data    = json_decode($content, true);
+        $data = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || !isset($data['meta'])) {
             return ['error' => 'File backup tidak valid atau rusak.', 'message' => null];
@@ -109,7 +109,8 @@ class BackupController extends Controller
 
         $clean = function (array $row): array {
             foreach (['created_at', 'updated_at'] as $col) {
-                if (!array_key_exists($col, $row)) continue;
+                if (!array_key_exists($col, $row))
+                    continue;
                 $val = $row[$col];
                 if ($val === null || $val === '' || $val === 'null') {
                     $row[$col] = null;
@@ -143,6 +144,9 @@ class BackupController extends Controller
 
             foreach ($data['users'] as $row) {
                 User::insert($clean($row));
+                if (empty($row['password'])) {
+                    $row['password'] = bcrypt('password123'); 
+                }
             }
             foreach ($data['departemen'] as $row) {
                 Departemen::insert($clean($row));
@@ -189,10 +193,10 @@ class BackupController extends Controller
             'tahun' => 'required|integer|min:2000|max:' . now()->year,
         ]);
 
-        $bulan     = (int) $request->bulan;
-        $tahun     = (int) $request->tahun;
+        $bulan = (int) $request->bulan;
+        $tahun = (int) $request->tahun;
         $namaBulan = \Carbon\Carbon::createFromDate($tahun, $bulan, 1)->translatedFormat('F_Y');
-        $filename  = "Laporan_Gudang_{$namaBulan}.xlsx";
+        $filename = "Laporan_Gudang_{$namaBulan}.xlsx";
 
         return Excel::download(
             new LaporanExport($bulan, $tahun),
