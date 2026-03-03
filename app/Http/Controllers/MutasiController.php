@@ -39,7 +39,7 @@ class MutasiController extends Controller
                 $request->tanggal
             );
         }
-        $mutasi = $query->paginate(15);
+        $mutasi = $query->paginate(10);
         $komponen = MasterKomponen::orderBy('nama_komponen')->get();
         return view("mutasi.index", compact("komponen", "mutasi"));
     }

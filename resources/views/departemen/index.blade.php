@@ -214,9 +214,9 @@
                         </select>
                     </div>
                     <!-- <button type="submit"
-                                    class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
-                                    Filter
-                                </button> -->
+                                        class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
+                                        Filter
+                                    </button> -->
                 </div>
                 @if(request()->hasAny(['id_departemen']))
                     <div class="mt-2 text-right">
@@ -316,9 +316,7 @@
                 </div>
 
                 @if(method_exists($departemen, 'links'))
-                    <div class="px-6 py-4 border-t border-gray-800">
-                        {{ $departemen->appends(request()->query())->links() }}
-                    </div>
+                    {{ $departemen->appends(request()->query())->links() }}
                 @endif
             </div>
 

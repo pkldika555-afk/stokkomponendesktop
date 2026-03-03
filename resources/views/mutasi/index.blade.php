@@ -71,7 +71,7 @@
             background-color: #111827;
             border: 1px solid #374151;
             border-radius: 0.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5), 0 4px 10px -2px rgba(0,0,0,0.4);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
             margin-top: 2px;
             overflow: hidden;
         }
@@ -110,9 +110,18 @@
             scrollbar-color: #374151 transparent;
         }
 
-        .select2-results__options::-webkit-scrollbar { width: 4px; }
-        .select2-results__options::-webkit-scrollbar-track { background: transparent; }
-        .select2-results__options::-webkit-scrollbar-thumb { background-color: #374151; border-radius: 4px; }
+        .select2-results__options::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .select2-results__options::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 4px;
+        }
 
         .select2-container--default .select2-results__option {
             color: #9ca3af;
@@ -238,7 +247,8 @@
                 </div>
                 @if(request()->hasAny(['jenis', 'id_komponen', 'dari', 'sampai']))
                     <div class="mt-2 text-right">
-                        <a href="{{ route('mutasi.index') }}" class="text-xs text-gray-500 hover:text-gray-300 underline">Reset filter</a>
+                        <a href="{{ route('mutasi.index') }}" class="text-xs text-gray-500 hover:text-gray-300 underline">Reset
+                            filter</a>
                     </div>
                 @endif
             </form>
@@ -247,14 +257,22 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b border-gray-800">
-                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal</th>
-                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Komponen</th>
-                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Jenis</th>
-                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Dari → Ke</th>
-                            <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Jumlah</th>
-                            <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Stok Sekarang</th>
-                            <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Keterangan</th>
-                            <th class="text-center px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Aksi</th>
+                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Tanggal</th>
+                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Komponen</th>
+                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Jenis</th>
+                            <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Dari → Ke</th>
+                            <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Jumlah</th>
+                            <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Stok Sekarang</th>
+                            <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Keterangan</th>
+                            <th class="text-center px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-800/60">
@@ -275,7 +293,8 @@
                                     <p class="text-gray-600 text-xs font-mono">{{ $m->komponen->kode_komponen ?? '' }}</p>
                                 </td>
                                 <td class="px-5 py-3.5">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-lg border text-xs font-medium {{ $jenisColor }}">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-1 rounded-lg border text-xs font-medium {{ $jenisColor }}">
                                         {{ $m->label_jenis }}
                                     </span>
                                 </td>
@@ -285,13 +304,15 @@
                                     <span>{{ $m->departemenTujuan->nama_departemen ?? '-' }}</span>
                                 </td>
                                 <td class="px-5 py-3.5 text-right">
-                                    <span class="font-mono font-semibold text-sm {{ $isMasuk ? 'text-emerald-400' : 'text-rose-400' }}">
+                                    <span
+                                        class="font-mono font-semibold text-sm {{ $isMasuk ? 'text-emerald-400' : 'text-rose-400' }}">
                                         {{ $isMasuk ? '+' : '-' }}{{ number_format($m->jumlah) }}
                                     </span>
                                     <p class="text-xs text-gray-600">{{ $m->komponen->satuan ?? 'unit' }}</p>
                                 </td>
                                 <td class="px-6 py-4 text-right">
-                                    <span class="font-mono font-semibold {{ ($m->komponen->stok ?? 0) > 0 ? 'text-emerald-400' : 'text-rose-400' }}">
+                                    <span
+                                        class="font-mono font-semibold {{ ($m->komponen->stok ?? 0) > 0 ? 'text-emerald-400' : 'text-rose-400' }}">
                                         {{ number_format($m->komponen->stok ?? 0) }}
                                     </span>
                                 </td>
@@ -327,12 +348,9 @@
                 </table>
 
                 @if($mutasi->hasPages())
-                    <div class="px-5 py-3 border-t border-gray-800 flex items-center justify-between">
-                        <p class="text-xs text-gray-600">
-                            Menampilkan {{ $mutasi->firstItem() }}–{{ $mutasi->lastItem() }} dari {{ $mutasi->total() }} data
-                        </p>
-                        {{ $mutasi->links() }}
-                    </div>
+
+                    {{ $mutasi->links() }}
+
                 @endif
             </div>
 
@@ -347,14 +365,14 @@
                 placeholder: "Semua Komponen",
                 allowClear: true,
                 width: 'resolve',
-                dropdownParent: $('form')  
+                dropdownParent: $('form')
             });
 
             $('#filter-jenis').select2({
                 placeholder: "Semua Jenis",
                 allowClear: true,
                 width: 'resolve',
-                dropdownParent: $('form')  
+                dropdownParent: $('form')
             });
         });
     </script>
