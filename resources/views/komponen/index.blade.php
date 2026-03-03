@@ -163,6 +163,7 @@
             letter-spacing: 0.1em;
             padding: 0.5rem 0.625rem 0.25rem;
         }
+        
     </style>
     <div class="min-h-screen bg-gray-950 text-gray-100 font-sans">
         <div class="max-w-8xl mx-auto  py-10">

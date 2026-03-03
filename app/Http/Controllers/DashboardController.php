@@ -44,7 +44,6 @@ class DashboardController extends Controller
                 ->sum('jumlah');
         }
 
-        // ── Top 5 Komponen Paling Sering Dimutasi ──────────────────
         $topRaw = MutasiBarang::select(
                         'id_komponen',
                         DB::raw('SUM(jumlah) as total')
