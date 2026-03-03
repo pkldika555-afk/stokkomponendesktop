@@ -201,10 +201,10 @@
                     </ul>
                 </div>
             @endif
-            <form action="{{ route('komponen.store') }}" method="POST"
+            <form action="{{ route('komponen.store') }}" method="POST" enctype="multipart/form-data"
                 class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
                 @csrf
-
+                @method ('POST')
                 <div class="px-6 py-5 border-b border-gray-800">
                     <p class="text-sm font-semibold text-gray-200">Informasi Komponen</p>
                     <p class="text-xs text-gray-500 mt-0.5">Lengkapi semua field yang diperlukan</p>
@@ -232,7 +232,7 @@
 
                     <div>
                         <label class="block text-sm font-medium mb-1">Gambar Komponen</label>
-                        <input type="file" name="gambar" accept="image/*"
+                        <input for="gambar" type="file" name="gambar" accept="image/*" id="gambar"
                             class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm file:bg-indigo-600 file:text-white file:border-0 file:rounded file:px-4 file:py-1">
                         @error('gambar') <p class="text-rose-400 text-xs mt-1">{{ $message }}</p> @enderror
 

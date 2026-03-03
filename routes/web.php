@@ -51,3 +51,10 @@ Route::prefix('backup')->name('backup.')->group(function () {
 
 Route::get('/restore-awal', [BackupController::class, 'restoreAwalForm'])->name('restore.awal.form');
 Route::post('/restore-awal', [BackupController::class, 'restoreAwal'])->name('restore.awal');
+Route::get('/komponen/image/{filename}', function ($filename) {
+    $path = Storage::disk('app_data_images')->path($filename);
+    
+    if (!file_exists($path)) abort(404);
+    
+    return response()->file($path);
+})->name('komponen.image');

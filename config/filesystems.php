@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -57,7 +57,8 @@ return [
         ],
         'app_data_images' => [
             'driver' => 'local',
-            'root' => storage_path('app_data/images'),
+            'root' => storage_path('app' . DIRECTORY_SEPARATOR . 'app_data' . DIRECTORY_SEPARATOR . 'images'),
+            'url' => env('APP_URL') . '/app_data/images',
             'visibility' => 'public',
         ],
 

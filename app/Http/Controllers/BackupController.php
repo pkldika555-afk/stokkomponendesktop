@@ -7,10 +7,11 @@ use App\Models\MasterKomponen;
 use App\Models\MutasiBarang;
 use App\Exports\LaporanExport;
 use App\Models\User;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-
+use ZanySoft\LaravelZip\LaravelZip;
 class BackupController extends Controller
 {
     public function index()
@@ -145,7 +146,7 @@ class BackupController extends Controller
             foreach ($data['users'] as $row) {
                 User::insert($clean($row));
                 if (empty($row['password'])) {
-                    $row['password'] = bcrypt('password123'); 
+                    $row['password'] = bcrypt('password123');
                 }
             }
             foreach ($data['departemen'] as $row) {
@@ -204,5 +205,41 @@ class BackupController extends Controller
             \Maatwebsite\Excel\Excel::XLSX,
             ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
         );
+    }
+    public function export()
+    {
+        $data = [
+            'meta' => ['created_at' => now()],
+            'komponen' => MasterKomponen::all()->map(fn($k) => $k->toArray())->toArray(),
+
+        ];
+
+        $jsonPath = base_path('app_data/backup/komponen-' . now()->format('Ymd-His') . '.json');
+        file_put_contents($jsonPath, json_encode($data, JSON_PRETTY_PRINT));
+
+        $zipPath = base_path('app_data/backup/images-' . now()->format('Ymd-His') . '.zip');
+        $zip = LaravelZip::create($zipPath);
+        $zip->add(base_path('app_data/images'), 'images');
+        $zip->close();
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
+
+    }
+    public function importImages(Request $request)
+    {
+        $request->validate(['zip_file' => 'required|mimes:zip|max:10240']);
+
+        $zip = LaravelZip::open($request->file('zip_file')->path());
+        $extractTo = base_path('app_data/images');
+
+        File::ensureDirectoryExists($extractTo);
+
+        $zip->extract($extractTo, function ($file) {
+            return str_starts_with($file->getName(), 'images/');
+        });
+
+        $zip->close();
+
+        return back()->with('success', 'Gambar berhasil diimport dari ZIP!');
     }
 }

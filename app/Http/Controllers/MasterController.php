@@ -41,12 +41,18 @@ class MasterController extends Controller
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        $komponen = MasterKomponen::create($validate);
+
+        // ensure 'gambar' key exists so DB insert doesn't fail
         if ($request->hasFile('gambar')) {
-            $filename = Str::slug($komponen->kode_komponen) . '.' . $request->gambar->extension();
+            $filename = Str::slug($validate['kode_komponen']) . '.' . $request->gambar->extension();
             $request->gambar->storeAs('', $filename, 'app_data_images');
-            $komponen->update(['gambar' => $filename]);
+            $validate['gambar'] = $filename;
+        } else {
+            $validate['gambar'] = null;
         }
+
+        $komponen = MasterKomponen::create($validate);
+
         return redirect()->route('komponen.index')->with('success', 'Data berhasil ditambahkan');
     }
     public function edit($id)
@@ -73,7 +79,6 @@ class MasterController extends Controller
         $komponen->update($validate);
 
         if ($request->hasFile('gambar')) {
- 
             if ($komponen->gambar) {
                 Storage::disk('app_data_images')->delete($komponen->gambar);
             }

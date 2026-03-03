@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Storage;
 
 class MasterKomponen extends Model
 {
@@ -19,7 +20,8 @@ class MasterKomponen extends Model
         'rak',
         'lokasi',
         'departemen_id',
-        'harga'
+        'harga',
+        'gambar',
     ];
     // hanya dua tipe sekarang, untuk konsistensi dengan tabel mutasi
     const JENIS_MASUK = ['masuk'];
@@ -30,21 +32,17 @@ class MasterKomponen extends Model
     }
     public function departemen()
     {
-        return $this->belongsTo(Departemen::class,'departemen_id');
+        return $this->belongsTo(Departemen::class, 'departemen_id');
     }
 
     public function isStokRendah(): bool
     {
         return $this->stok <= $this->stok_minimal;
     }
-    public function getGambarUrlAttribute()
-    {
-        if (!$this->gambar) {
-            return asset('images/default-komponen.png'); 
-        }
 
-        return 'file:///' . base_path("app_data/images/{$this->gambar}");
-
-
-    }
+public function getGambarUrlAttribute(): string
+{
+    if (!$this->gambar) return '';
+    return route('komponen.image', $this->gambar);
+}
 }

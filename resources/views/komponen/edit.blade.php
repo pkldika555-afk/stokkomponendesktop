@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('komponen.update', $komponen->id) }}" method="POST"
+            <form action="{{ route('komponen.update', $komponen->id) }}" method="POST" enctype="multipart/form-data"
                 class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
                 @csrf
                 @method('PUT')
@@ -86,7 +86,7 @@
                         @endif
 
                         <label class="block mt-4">Ganti Gambar (opsional)</label>
-                        <input type="file" name="gambar" accept="image/*" class="...">
+                        <input type="file" name="gambar" for="gambar" accept="image/*" class="...">
                     </div>
                     <div>
                         <label for="nama_komponen" class="block text-sm font-medium text-gray-300 mb-1.5">
