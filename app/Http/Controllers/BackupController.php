@@ -6,6 +6,7 @@ use App\Models\Departemen;
 use App\Models\MasterKomponen;
 use App\Models\MutasiBarang;
 use App\Exports\LaporanExport;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,6 +19,7 @@ class BackupController extends Controller
             'departemen' => Departemen::count(),
             'komponen' => MasterKomponen::count(),
             'mutasi' => MutasiBarang::count(),
+            'users' => User::count(),
             'last_backup' => session('last_backup'),
         ];
         return view('backup.index', compact('stats'));
@@ -34,11 +36,13 @@ class BackupController extends Controller
                     'departemen' => Departemen::count(),
                     'komponen' => MasterKomponen::count(),
                     'mutasi' => MutasiBarang::count(),
+                    'users' => User::count(),
                 ],
             ],
             'departemen' => Departemen::all()->toArray(),
             'komponen' => MasterKomponen::all()->toArray(),
             'mutasi' => MutasiBarang::all()->toArray(),
+            'users' => User::all()->toArray(),
         ];
 
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
@@ -63,7 +67,7 @@ class BackupController extends Controller
             return back()->withErrors(['backup_file' => 'File backup tidak valid atau rusak.']);
         }
 
-        foreach (['departemen', 'komponen', 'mutasi'] as $key) {
+        foreach (['departemen', 'komponen', 'mutasi', 'users'] as $key) {
             if (!array_key_exists($key, $data)) {
                 return back()->withErrors(['backup_file' => "File backup tidak lengkap: '{$key}' tidak ditemukan."]);
             }
@@ -102,6 +106,7 @@ class BackupController extends Controller
             MutasiBarang::query()->delete();
             MasterKomponen::query()->delete();
             Departemen::query()->delete();
+            User::query()->delete();
 
             foreach ($data['departemen'] as $row) {
                 Departemen::insert($clean($row));
@@ -111,6 +116,9 @@ class BackupController extends Controller
             }
             foreach ($data['mutasi'] as $row) {
                 MutasiBarang::insert($clean($row));
+            }
+            foreach ($data['users'] as $row) {
+                User::insert($clean($row));
             }
 
             DB::commit();
@@ -132,7 +140,8 @@ class BackupController extends Controller
             "Restore berhasil! " .
             count($data['departemen']) . " departemen, " .
             count($data['komponen']) . " komponen, " .
-            count($data['mutasi']) . " mutasi dipulihkan."
+            count($data['mutasi']) . " mutasi dipulihkan.".
+            count($data['users']) . " users dipulihkan."
         );
     }
 
