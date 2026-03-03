@@ -77,7 +77,17 @@
                 </div>
 
                 <div class="px-6 py-6 space-y-5">
+                    <div>
+                        <label>Gambar Saat Ini</label>
+                        @if($komponen->gambar)
+                            <img src="{{ $komponen->gambar_url }}" alt="Gambar Komponen" class="max-h-48 rounded-lg mt-2">
+                        @else
+                            <p class="text-gray-500">Belum ada gambar</p>
+                        @endif
 
+                        <label class="block mt-4">Ganti Gambar (opsional)</label>
+                        <input type="file" name="gambar" accept="image/*" class="...">
+                    </div>
                     <div>
                         <label for="nama_komponen" class="block text-sm font-medium text-gray-300 mb-1.5">
                             Nama Komponen <span class="text-rose-400">*</span>

@@ -1,6 +1,169 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .select2-container--default .select2-selection--single:hover {
+            border-color: #4b5563;
+        }
+
+        .select2-container--default.select2-container--open .select2-selection--single,
+        .select2-container--default.select2-container--focus .select2-selection--single {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 1px #6366f1;
+            outline: none;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #d1d5db;
+            font-size: 0.75rem;
+            line-height: 1rem;
+            padding-left: 0.75rem;
+            padding-right: 2rem;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #6b7280;
+            font-size: 0.75rem;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+            right: 0.5rem;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #6b7280 transparent transparent transparent;
+            border-width: 4px 4px 0 4px;
+        }
+
+        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+            border-color: transparent transparent #6366f1 transparent;
+            border-width: 0 4px 4px 4px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-right: 0.25rem;
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__clear:hover {
+            color: #f87171;
+        }
+
+        .select2-dropdown {
+            background-color: #111827;
+            border: 1px solid #374151;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
+            margin-top: 2px;
+            overflow: hidden;
+        }
+
+        .select2-container--default .select2-search--dropdown {
+            padding: 0.5rem;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.375rem;
+            color: #d1d5db;
+            font-size: 0.75rem;
+            padding: 0.375rem 0.625rem;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 1px #6366f1;
+        }
+
+        .select2-container--default .select2-search--dropdown .select2-search__field::placeholder {
+            color: #6b7280;
+        }
+
+        .select2-results__options {
+            padding: 0.25rem;
+            max-height: 220px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #374151 transparent;
+        }
+
+        .select2-results__options::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .select2-results__options::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .select2-results__options::-webkit-scrollbar-thumb {
+            background-color: #374151;
+            border-radius: 4px;
+        }
+
+        .select2-container--default .select2-results__option {
+            color: #9ca3af;
+            font-size: 0.75rem;
+            padding: 0.375rem 0.625rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.1s, color 0.1s;
+        }
+
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: #312e81;
+            color: #a5b4fc;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected=true] {
+            background-color: #1e1b4b;
+            color: #818cf8;
+        }
+
+        .select2-container--default .select2-results__option[aria-selected=true]::before {
+            content: "✓ ";
+            font-size: 0.65rem;
+        }
+
+        .select2-results__message,
+        .select2-container--default .select2-results__option[aria-disabled=true] {
+            color: #6b7280;
+            font-size: 0.75rem;
+            padding: 0.5rem 0.625rem;
+            font-style: italic;
+        }
+
+        .select2-container--default .select2-results__group {
+            color: #6366f1;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.5rem 0.625rem 0.25rem;
+        }
+    </style>
     <div class="min-h-screen bg-gray-950 text-gray-100 font-sans">
         <div class="max-w-2xl mx-auto px-6 py-10">
 
@@ -67,17 +230,17 @@
                         @enderror
                     </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Gambar Komponen</label>
-                            <input type="file" name="gambar" accept="image/*"
-                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm file:bg-indigo-600 file:text-white file:border-0 file:rounded file:px-4 file:py-1">
-                            @error('gambar') <p class="text-rose-400 text-xs mt-1">{{ $message }}</p> @enderror
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Gambar Komponen</label>
+                        <input type="file" name="gambar" accept="image/*"
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm file:bg-indigo-600 file:text-white file:border-0 file:rounded file:px-4 file:py-1">
+                        @error('gambar') <p class="text-rose-400 text-xs mt-1">{{ $message }}</p> @enderror
 
-                            <div id="image-preview" class="mt-3 hidden">
-                                <img id="preview-img" class="max-h-48 rounded-lg object-cover" src="" alt="Preview">
-                            </div>
+                        <div id="image-preview" class="mt-3 hidden">
+                            <img id="preview-img" class="max-h-48 rounded-lg object-cover" src="" alt="Preview">
                         </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label for="kode_komponen" class="block text-sm font-medium text-gray-300 mb-1.5">
                                 Kode Komponen
@@ -184,19 +347,12 @@
                         @enderror
                     </div>
                     <div>
-                        <label for="departemen_id" class="block text-sm font-medium text-gray-300 mb-1.5">Bagian
-                            <span class="text-rose-400">*</span></label>
-                        <select id="departemen_id" name="departemen_id"
-                            class="w-full bg-gray-800 border {{ $errors->has('departemen_id') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
-                            <option value="">— Pilih Bagian —</option>
-                            @foreach($departemen as $d)
-                                <option value="{{ $d->id }}" {{ $d->id == $d->departemen_id ? 'selected' : '' }}>
-                                    {{ $d->nama_departemen }}
+                        <label class="block text-sm font-medium mb-1">Departemen</label>
+                        <select name="departemen_id" class="js-select2-departemen w-full">
+                            @foreach($departemen as $dep)
+                                <option value="{{ $dep->id }}">{{ $dep->nama_departemen }}</option>
                             @endforeach
                         </select>
-                        @error('departemen_id')
-                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
-                        @enderror
                     </div>
                 </div>
                 <div class="px-6 py-4 border-t border-gray-800 bg-gray-900/50 flex items-center justify-between gap-3">
@@ -218,4 +374,28 @@
 
         </div>
     </div>
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+    </script>
+    <script>
+        document.querySelector('input[name="gambar"]').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('image-preview').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        $(document).ready(function () {
+            $('.js-select2-departemen').select2({
+                placeholder: "Pilih Departemen",
+                allowClear: true,
+                dropdownParent: $('form')
+            });
+        });
+    </script>
 @endsection
