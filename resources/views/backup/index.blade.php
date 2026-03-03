@@ -314,9 +314,14 @@
         });
         ['dragenter', 'dragover'].forEach(eventName => {
             dropzone.addEventListener(eventName, () => {
-                dropzone.classList.add('border-emerald-500', 'bg-emerald-500/10')
-            })
-        })
+                dropzone.classList.add('border-emerald-500', 'bg-emerald-500/10');
+            });
+        });
+        ('dragleave', 'drop').forEach(event => {
+            dropzone.addEventListener(event, () => {
+                dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/10');
+            });
+        });
         
         document.getElementById('modalExport').addEventListener('click', function (e) {
             if (e.target === this) this.classList.add('hidden');
