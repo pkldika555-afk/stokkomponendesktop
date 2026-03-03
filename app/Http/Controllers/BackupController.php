@@ -148,6 +148,20 @@ class BackupController extends Controller
     {
         return view('backup.restore-awal');
     }
+    public function restoreAwal(Request $request)
+    {
+        $request->validate([
+            'backup_file' => 'required|file|mimes:json|max:20480',
+        ]);
+
+        $result = $this->processRestore($request->file('backup_file'));
+
+        if ($result['error']) {
+            return back()->withErrors(['backup_file' => $result['error']]);
+        }
+
+        return redirect('/login')->with('success', 'Restore berhasil! Silakan login dengan akun dari backup.');
+    }
 
     public function exportExcel(Request $request)
     {
