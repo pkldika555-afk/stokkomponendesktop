@@ -15,7 +15,7 @@ class MasterController extends Controller
         $komponen = MasterKomponen::with('departemen')
             ->orderBy('nama_komponen', 'asc')
             ->when($request->id_komponen, fn($q) => $q->where('id', $request->id_komponen))
-            ->paginate(10);
+            ->paginate(5);
 
         $allKomponen = MasterKomponen::orderBy('nama_komponen', 'asc')->get();
         $departemen = Departemen::all();
