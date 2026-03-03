@@ -308,10 +308,10 @@
                 '⚠️ PERHATIAN!\n\nSemua data yang ada sekarang akan dihapus dan diganti dengan data dari file backup.\n\nLanjutkan restore?'
             );
         }
-        document.getElementById('dropzone').addEventListener('dragover', function(e) {
-            e.preventDefault();
-            this.classList.add('border-indigo-500/60');
-        });
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, e => e.preventDefault());
+            dropzone.addEventListener(eventName, e => e.stopPropagation());
+        })
         document.getElementById('modalExport').addEventListener('click', function (e) {
             if (e.target === this) this.classList.add('hidden');
         });
