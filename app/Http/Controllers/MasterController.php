@@ -8,18 +8,18 @@ use Illuminate\Http\Request;
 
 class MasterController extends Controller
 {
-public function index(Request $request)
-{
-    $komponen = MasterKomponen::with('departemen')
-        ->orderBy('nama_komponen', 'asc')
-        ->when($request->id_komponen, fn($q) => $q->where('id', $request->id_komponen))
-        ->paginate(10);
+    public function index(Request $request)
+    {
+        $komponen = MasterKomponen::with('departemen')
+            ->orderBy('nama_komponen', 'asc')
+            ->when($request->id_komponen, fn($q) => $q->where('id', $request->id_komponen))
+            ->paginate(10);
 
-    $allKomponen = MasterKomponen::orderBy('nama_komponen', 'asc')->get(); 
-    $departemen = Departemen::all();
+        $allKomponen = MasterKomponen::orderBy('nama_komponen', 'asc')->get();
+        $departemen = Departemen::all();
 
-    return view('komponen.index', compact('komponen', 'allKomponen', 'departemen'));
-}
+        return view('komponen.index', compact('komponen', 'allKomponen', 'departemen'));
+    }
     public function create()
     {
         $departemen = Departemen::all();
@@ -37,6 +37,7 @@ public function index(Request $request)
             'lokasi' => 'required',
             'departemen_id' => 'required',
             'harga' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         MasterKomponen::create($validate);
         return redirect()->route('komponen.index')->with('success', 'Data berhasil ditambahkan');
