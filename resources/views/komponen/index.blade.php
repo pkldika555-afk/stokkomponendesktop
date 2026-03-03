@@ -247,6 +247,7 @@
                                 <th class="text-left px-6 py-3 font-semibold">Satuan</th>
                                 <th class="text-right px-6 py-3 font-semibold">Stok Minimal</th>
                                 <th class="text-right px-6 py-3 font-semibold">Stok Sekarang</th>
+                                <th class="text-right px-6 py-3 font-semibold">Harga</th>
                                 <th class="text-right px-6 py-3 font-semibold">Rak</th>
                                 <th class="text-right px-6 py-3 font-semibold">Lot</th>
                                 <th class="text-center px-6 py-3 font-semibold">Bagian</th>
@@ -305,6 +306,7 @@
                                             {{ number_format($k->stok ?? 0) }}
                                         </span>
                                     </td>
+                                    <td class="px-6 py-4 text-gray-400">{{ number_format($k->harga ?? 0, 2) }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->rak ?? '-' }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->lokasi ?? '-' }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->departemen->nama_departemen ?? '-' }}</td>
