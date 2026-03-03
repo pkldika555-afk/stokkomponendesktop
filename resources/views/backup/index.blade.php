@@ -287,8 +287,11 @@
             </div>
         </div>
         <script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('backup_file');
+        const label = document.getElementById('dropzone-label');
+
         function updateDropzone(input) {
-                const label = document.getElementById('dropzone-label');
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 label.textContent = '✓ ' + file.name;
@@ -317,12 +320,18 @@
                 dropzone.classList.add('border-emerald-500', 'bg-emerald-500/10');
             });
         });
-        ('dragleave', 'drop').forEach(event => {
+        ['dragleave', 'drop'].forEach(event => {
             dropzone.addEventListener(event, () => {
                 dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/10');
             });
         });
-        
+        dropzone.addEventListener('drop', e => {
+            const dt = new DataTransfer();
+            dt.items.add(e.dataTransfer.files[0]);
+            fileInput.files = dt.files;
+
+            updateDropzone(fileInput);
+        });
         document.getElementById('modalExport').addEventListener('click', function (e) {
             if (e.target === this) this.classList.add('hidden');
         });
