@@ -86,7 +86,11 @@
                         @endif
 
                         <label class="block mt-4">Ganti Gambar (opsional)</label>
-                        <input type="file" name="gambar" for="gambar" accept="image/*" class="...">
+                        <input type="file" name="gambar" for="gambar" accept="image/*"
+                            class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm file:bg-indigo-600 file:text-white file:border-0 file:rounded file:px-4 file:py-1">
+                        <div id="image-preview" class="mt-3 hidden">
+                            <img id="preview-img" class="max-h-48 rounded-lg object-cover" src="" alt="Preview">
+                        </div>
                     </div>
                     <div>
                         <label for="nama_komponen" class="block text-sm font-medium text-gray-300 mb-1.5">
@@ -277,4 +281,17 @@
 
     </div>
     </div>
+    <script>
+        document.querySelector('input[name="gambar"]').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('image-preview').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection
