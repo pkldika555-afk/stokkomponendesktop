@@ -186,7 +186,7 @@
                         </label>
 
                         <div class="relative">
-                            <input type="number" id="harga" name="harga" value="{{ old('harga', number_format($komponen->harga ?? 0, 0, ',', '.')) }}" min="0"
+                            <input type="number" id="harga" name="harga" value="{{ old('harga', number_format($komponen->harga ?? 0, 0, ',', '')) }}" min="0"
                                 class="w-full bg-gray-800 border {{ $errors->has('harga') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
                             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">harga</span>
                         </div>

@@ -306,7 +306,7 @@
                                             {{ number_format($k->stok ?? 0) }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 text-gray-400">{{ number_format($k->harga ?? 0, 2) }}</td>
+                                    <td class="px-6 py-4 text-gray-400">{{number_format($k->harga ?? 0, 0, ',', '.') }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->rak ?? '-' }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->lokasi ?? '-' }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->departemen->nama_departemen ?? '-' }}</td>
