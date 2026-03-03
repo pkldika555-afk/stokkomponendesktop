@@ -403,6 +403,57 @@
             });
         });
 
+        // flash messages via SweetAlert
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: "{{ session('success') }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ session('error') }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan',
+                text: "{{ $errors->first() }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+
+        // generic confirm for forms that declare data-confirm attribute
+        document.querySelectorAll('form[data-confirm]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const msg = form.getAttribute('data-confirm');
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: msg || 'Apakah Anda yakin?',
+                    icon: 'warning',
+                    background: '#0f172a',
+                    color: '#cbd5e1',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#475569',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Batal',
+                }).then(result => {
+                    if (result.isConfirmed) form.submit();
+                });
+            });
+        });
+
         function handleLaporanChange(select) {
             if (select.value) window.location.href = select.value;
         }

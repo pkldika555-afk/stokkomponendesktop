@@ -182,17 +182,7 @@
                 </a>
 
             </div>
-            @if(session('success'))
-                <div
-                    class="flex items-center gap-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl px-5 py-3.5 mb-6 text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {{ session('success') }}
-                </div>
-            @endif
+
 
             <form method="GET" class="mb-5">
                 <div class="flex items-center gap-2">
@@ -321,8 +311,7 @@
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </a>
-                                            <form action="{{ route('komponen.destroy', $k->id) }}" method="POST"
-                                                onsubmit="return confirm('Hapus komponen ini?')">
+                                            <form action="{{ route('komponen.destroy', $k->id) }}" method="POST" data-confirm="Hapus komponen ini?">
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 transition-colors duration-150"

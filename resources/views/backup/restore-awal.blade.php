@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
     @vite('resources/css/app.css', 'resources/js/app.js')
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
     <style>
         body { font-family: 'DM Sans', sans-serif; }
         .font-display { font-family: 'Syne', sans-serif; }
@@ -55,19 +56,7 @@
                 <p class="text-sm text-slate-500 mt-1">Upload file backup .json untuk memulihkan semua data termasuk akun.</p>
             </div>
 
-            @if(session('success'))
-                <div class="mb-5 flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm">
-                    <i class="ri-checkbox-circle-fill shrink-0"></i>
-                    <p>{{ session('success') }}</p>
-                </div>
-            @endif
 
-            @if($errors->any())
-                <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20">
-                    <i class="ri-error-warning-fill text-red-400 mt-0.5 shrink-0"></i>
-                    <p class="text-sm text-red-400">{{ $errors->first() }}</p>
-                </div>
-            @endif
 
             <div class="flex items-start gap-2 bg-amber-500/5 border border-amber-500/20 rounded-xl px-3.5 py-3 mb-5">
                 <i class="ri-alert-line text-amber-400 shrink-0 mt-0.5"></i>
@@ -124,14 +113,57 @@
             }
         }
 
+        // show session flash using swal
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: "{{ session('success') }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi Kesalahan',
+                text: "{{ $errors->first() }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+
         function confirmRestore() {
             if (!document.getElementById('backup_file').files[0]) {
-                alert('Pilih file backup terlebih dahulu.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Pilih file terlebih dahulu',
+                    text: 'Silakan pilih file backup sebelum melanjutkan.',
+                    background: '#0f172a',
+                    color: '#cbd5e1',
+                });
                 return false;
             }
-            return confirm('⚠️ PERHATIAN!\n\nSemua data akan dihapus dan diganti dengan data dari file backup.\n\nLanjutkan restore?');
+            Swal.fire({
+                title: '⚠️ PERHATIAN',
+                text: 'Semua data akan dihapus dan diganti dengan data dari file backup.',
+                icon: 'warning',
+                background: '#0f172a',
+                color: '#cbd5e1',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#475569',
+                confirmButtonText: 'Lanjutkan',
+                cancelButtonText: 'Batal',
+            }).then(result => {
+                if (result.isConfirmed) {
+                    document.querySelector('form[action="{{ route('restore.awal') }}"]').submit();
+                }
+            });
+            return false;
         }
-s
+
+
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('backup_file');
 

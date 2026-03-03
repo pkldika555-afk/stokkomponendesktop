@@ -10,32 +10,9 @@
                 <p class="text-gray-500 text-xs mt-1">Pindahkan atau salin data antar perangkat dengan mudah</p>
             </div>
 
-            @if(session('success'))
-                <div
-                    class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl px-4 py-3 mb-5 flex items-center gap-2.5 text-emerald-400 text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                    </svg>
-                    {{ session('success') }}
-                </div>
-            @endif
 
-            @if($errors->any())
-                <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl px-4 py-3 mb-5 flex gap-2.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-rose-400 shrink-0 mt-0.5" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <div>
-                        <p class="text-rose-400 font-semibold text-xs mb-1">Terjadi kesalahan</p>
-                        @foreach($errors->all() as $e)
-                            <p class="text-rose-300 text-xs">{{ $e }}</p>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
+
+
 
             <div class="grid grid-cols-3 gap-2.5 mb-6">
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-3.5 text-center">
@@ -229,7 +206,7 @@
                             </p>
                         </div>
 
-                        <form action="{{ route('backup.restore') }}" method="POST" enctype="multipart/form-data"
+                        <form id="backup_form" action="{{ route('backup.restore') }}" method="POST" enctype="multipart/form-data"
                             onsubmit="return confirmRestore()">
                             @csrf
 
@@ -304,13 +281,33 @@
             function confirmRestore() {
                 const file = document.getElementById('backup_file').files[0];
                 if (!file) {
-                    alert('Pilih file backup terlebih dahulu.');
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Pilih file terlebih dahulu',
+                        text: 'Silakan pilih file backup sebelum melanjutkan.',
+                        background: '#0f172a',
+                        color: '#cbd5e1',
+                    });
                     return false;
-        }
-            return confirm(
-                '⚠️ PERHATIAN!\n\nSemua data yang ada sekarang akan dihapus dan diganti dengan data dari file backup.\n\nLanjutkan restore?'
-            );
-        }
+                }
+                Swal.fire({
+                    title: '⚠️ PERHATIAN',
+                    text: 'Semua data yang ada sekarang akan dihapus dan diganti dengan data dari file backup.',
+                    icon: 'warning',
+                    background: '#0f172a',
+                    color: '#cbd5e1',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#475569',
+                    confirmButtonText: 'Lanjutkan',
+                    cancelButtonText: 'Batal',
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        document.querySelector('#backup_form').submit();
+                    }
+                });
+                return false;
+            }
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropzone.addEventListener(eventName, e => e.preventDefault());
             dropzone.addEventListener(eventName, e => e.stopPropagation());
