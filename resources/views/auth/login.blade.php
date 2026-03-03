@@ -228,7 +228,8 @@
             </a>
         </div>
     </div>
-
+    <script src="{{ asset('js/sweetalert.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
     <script>
         const togglePw = document.getElementById('togglePw');
         const passwordInput = document.getElementById('password');
@@ -240,6 +241,33 @@
             toggleIcon.classList.toggle('ri-eye-line');
             toggleIcon.classList.toggle('ri-eye-off-line');
         });
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: "{{ session('success') }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ session('error') }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
+        @if($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Terjadi kesalahan',
+                text: "{{ $errors->first() }}",
+                background: '#0f172a',
+                color: '#cbd5e1',
+            });
+        @endif
     </script>
 </body>
 
