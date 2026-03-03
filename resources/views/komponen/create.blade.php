@@ -69,6 +69,16 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
+                            <label class="block text-sm font-medium mb-1">Gambar Komponen</label>
+                            <input type="file" name="gambar" accept="image/*"
+                                class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm file:bg-indigo-600 file:text-white file:border-0 file:rounded file:px-4 file:py-1">
+                            @error('gambar') <p class="text-rose-400 text-xs mt-1">{{ $message }}</p> @enderror
+
+                            <div id="image-preview" class="mt-3 hidden">
+                                <img id="preview-img" class="max-h-48 rounded-lg object-cover" src="" alt="Preview">
+                            </div>
+                        </div>
+                        <div>
                             <label for="kode_komponen" class="block text-sm font-medium text-gray-300 mb-1.5">
                                 Kode Komponen
                             </label>
@@ -157,15 +167,15 @@
                             @enderror
                         </div>
                     </div>
-                    
+
                     <div>
                         <label for="harga" class="block text-sm font-medium text-gray-300 mb-1.5">
                             Harga Satuan (Rp)
                         </label>
 
                         <div class="relative">
-                            <input type="number" id="harga" name="harga" value="{{ old('harga', number_format($komponen->harga ?? 0, 0, ',', '.')) }}" min="0"
-
+                            <input type="number" id="harga" name="harga"
+                                value="{{ old('harga', number_format($komponen->harga ?? 0, 0, ',', '.')) }}" min="0"
                                 class="w-full bg-gray-800 border {{ $errors->has('harga') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
                             <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">harga</span>
                         </div>
