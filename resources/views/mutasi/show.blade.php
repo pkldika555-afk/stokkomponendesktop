@@ -53,7 +53,7 @@
                     $rows = [
                         ['Komponen', $mutasi->komponen->nama_komponen ?? '-'],
                         ['Kode', $mutasi->komponen->kode_komponen ?? '-'],
-                        ['Harga Satuan', number_format($mutasi->komponen->harga ?? 0, 0, ',', '.')],
+                        ['Harga Satuan', 'Rp ' .number_format($mutasi->komponen->harga ?? 0, 0, ',', '.')],
                         ['Tanggal', date('d F Y', strtotime($mutasi->tanggal))],
                         ['Dari', $mutasi->departemenAsal->nama_departemen ?? '-'],
                         ['Ke', $mutasi->departemenTujuan->nama_departemen ?? '-'],
