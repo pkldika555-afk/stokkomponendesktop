@@ -157,7 +157,22 @@
                             @enderror
                         </div>
                     </div>
+                    
+                    <div>
+                        <label for="harga" class="block text-sm font-medium text-gray-300 mb-1.5">
+                            Harga Satuan (Rp)
+                        </label>
 
+                        <div class="relative">
+                            <input type="number" id="harga" name="harga" value="{{ old('harga', 0) }}" min="0"
+
+                                class="w-full bg-gray-800 border {{ $errors->has('harga') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">harga</span>
+                        </div>
+                        @error('harga')
+                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <div>
                         <label for="departemen_id" class="block text-sm font-medium text-gray-300 mb-1.5">Bagian
                             <span class="text-rose-400">*</span></label>
