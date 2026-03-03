@@ -36,6 +36,7 @@ public function index(Request $request)
             'rak' => 'required',
             'lokasi' => 'required',
             'departemen_id' => 'required',
+            'harga' => 'required|numeric',
         ]);
         MasterKomponen::create($validate);
         return redirect()->route('komponen.index')->with('success', 'Data berhasil ditambahkan');
@@ -57,6 +58,7 @@ public function index(Request $request)
             'rak' => 'required',
             'lokasi' => 'required',
             'id_departemen' => 'required',
+            'harga' => 'required|numeric',
         ]);
         MasterKomponen::findOrFail($id)->update($validate);
         return redirect()->route('komponen.index')->with('success', 'Data berhasil diubah');
