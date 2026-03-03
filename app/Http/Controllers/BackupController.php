@@ -91,7 +91,7 @@ class BackupController extends Controller
             return back()->withErrors(['backup_file' => $result['error']]);
         }
 
-        return redirect('/login')->with('success', 'Restore berhasil! Silakan login dengan akun dari backup.');
+        return redirect('/restore-awal')->with('success', 'Restore berhasil! Silakan login dengan akun dari backup.');
     }
 
     private function processRestore($file): array

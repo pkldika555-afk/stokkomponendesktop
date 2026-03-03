@@ -143,7 +143,7 @@
                     class="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold text-white mb-4"
                     style="background: linear-gradient(135deg, #f59e0b, #f97316); box-shadow: 0 0 20px rgba(245,158,11,0.3);">
                     <i class="ri-refresh-line text-base"></i>
-                    Restore & Lanjutkan ke Login
+                    Restore 
                 </button>
             </form>
             <div class="p-3.5 bg-gray-800/50 rounded-xl border border-gray-700/50">

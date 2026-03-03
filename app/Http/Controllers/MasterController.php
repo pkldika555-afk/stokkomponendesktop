@@ -83,7 +83,7 @@ class MasterController extends Controller
                 Storage::disk('app_data_images')->delete($komponen->gambar);
             }
 
-            $filename = Str::slug($komponen->kode_komponen) . '.' . $request->gambar->extension();
+             $filename = Str::slug($komponen->kode_komponen) . '-' . time() . '.' . $request->gambar->extension();'.' . $request->gambar->extension();
             $request->gambar->storeAs('', $filename, 'app_data_images');
             $komponen->update(['gambar' => $filename]);
         }
