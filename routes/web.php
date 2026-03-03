@@ -48,3 +48,6 @@ Route::prefix('backup')->name('backup.')->group(function () {
     Route::post('/restore',       [BackupController::class, 'restore'])  ->name('restore');
     Route::post('/excel',   [BackupController::class, 'exportExcel'])  ->name('excel');
 })->middleware('auth');
+
+Route::get('/restore-awal', [BackupController::class, 'restoreAwalForm'])->name('restore.awal.form');
+Route::post('/restore-awal', [BackupController::class, 'restoreAwal'])->name('restore.awal');

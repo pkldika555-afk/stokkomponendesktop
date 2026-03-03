@@ -140,9 +140,13 @@ class BackupController extends Controller
             "Restore berhasil! " .
             count($data['departemen']) . " departemen, " .
             count($data['komponen']) . " komponen, " .
-            count($data['mutasi']) . " mutasi dipulihkan.".
+            count($data['mutasi']) . " mutasi dipulihkan." .
             count($data['users']) . " users dipulihkan."
         );
+    }
+    public function restoreAwalForm()
+    {
+        return view('backup.restore-awal');
     }
 
     public function exportExcel(Request $request)
