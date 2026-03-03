@@ -5,9 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Komponen</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
     @vite('resources/css/app.css', 'resources/js/app.js')
     <style>
         body {
@@ -47,6 +46,7 @@
             top: -200px;
             left: -200px;
         }
+
         .glow-blob-2 {
             width: 500px;
             height: 500px;
@@ -68,16 +68,19 @@
             color: #e2e8f0;
             transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
-        .input-field::placeholder{
+
+        .input-field::placeholder {
             color: #475569;
         }
-        .input-field:focus{
+
+        .input-field:focus {
             outline: none;
             border-color: #6366f1;
             background: rgba(30, 41, 59, 0.9);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
-        .input-field:focus + .input-icon {
+
+        .input-field:focus+.input-icon {
             color: #818cf8;
         }
 
@@ -86,40 +89,61 @@
             box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
             transition: box-shadow 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
         }
+
         .btn-primary:hover {
             box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
             transform: translateY(-1px);
         }
+
         .btn-primary:active {
             transform: translateY(0);
             opacity: 0.9;
         }
+
         .toggle-pw {
             color: #475569;
             transition: color 0.2s;
         }
+
         .toggle-pw:hover {
             color: #94a3b8;
         }
+
         @keyframes fadeup {
             from {
                 opacity: 0;
                 transform: translateY(16px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
-        .animate-fadeup{
+
+        .animate-fadeup {
             animation: fadeup 0.5s ease forwards;
         }
-        
-        .delay-1 { animation-delay: 0.05s; }
-        .delay-2 { animation-delay: 0.12s; }
-        .delay-3 { animation-delay: 0.19s; }
-        .delay-4 { animation-delay: 0.26s; }
-        .delay-5 { animation-delay: 0.33s; }
+
+        .delay-1 {
+            animation-delay: 0.05s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.12s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.19s;
+        }
+
+        .delay-4 {
+            animation-delay: 0.26s;
+        }
+
+        .delay-5 {
+            animation-delay: 0.33s;
+        }
     </style>
 </head>
 
@@ -140,13 +164,14 @@
         </div>
 
         <div class="login-card rounded-2xl p-8">
-            
+
             <div class="mb-7 animate-fadeup delay-1">
                 <h2 class="font-display font-700 text-white text-xl tracking-tight">Selamat datang kembali</h2>
                 <p class="text-sm text-slate-500 mt-1">Masuk ke akun Anda untuk melanjutkan.</p>
             </div>
             @if ($errors->any())
-                <div class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 animate-fadeup delay-1">
+                <div
+                    class="mb-5 flex items-start gap-3 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 animate-fadeup delay-1">
                     <i class="ri-error-warning-fill text-red-400 text-base mt-0.5 shrink-0"></i>
                     <p class="text-sm text-red-400">{{ $errors->first() }}</p>
                     </ul>
@@ -154,40 +179,54 @@
             @endif
             <form method="POST" action="/login" class="space-y-5">
                 @csrf
-                
+
                 <div class="animate-fadeup delay-2">
-                    <label for="nrp" class="block text-xs font-medium text-slate-400 mb-2 font-mono-custom uppercase tracking-wider">NRP:</label>
+                    <label for="nrp"
+                        class="block text-xs font-medium text-slate-400 mb-2 font-mono-custom uppercase tracking-wider">NRP:</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="ri-id-card-line text-slate-500 text-sm input-icon transition-colors"></i>
                         </span>
-                        <input type="text" id="nrp" name="nrp" placeholder="Masukkan nrp anda..." class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-sm" required>
+                        <input type="text" id="nrp" name="nrp" placeholder="Masukkan nrp anda..."
+                            class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-sm" required>
                     </div>
                 </div>
-                
+
                 <div class="animate-fadeup delay-3">
-                    <label for="password" class="block text-xs font-medium text-slate-400 mb-2 font-mono-custom uppercase tracking-wider">Password</label>
+                    <label for="password"
+                        class="block text-xs font-medium text-slate-400 mb-2 font-mono-custom uppercase tracking-wider">Password</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
                             <i class="ri-lock-password-line text-slate-500 text-sm input-icon transition-colors"></i>
                         </span>
-                        <input type="password" id="password" name="password" placeholder="Masukkan password anda..." class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-sm" required>
-                        <button type="button" id="togglePw" class="toggle-pw absolute inset-y-0 right-0 flex items-center pr-3.5 text-sm">
+                        <input type="password" id="password" name="password" placeholder="Masukkan password anda..."
+                            class="input-field w-full pl-10 pr-4 py-3 rounded-xl text-sm" required>
+                        <button type="button" id="togglePw"
+                            class="toggle-pw absolute inset-y-0 right-0 flex items-center pr-3.5 text-sm">
                             <i class="ri-eye-off-line" id="toggleIcon"></i>
                         </button>
                     </div>
                 </div>
                 <div class="animate fadeup delay-4 pt-1">
-                    <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-white">
+                    <button type="submit"
+                        class="btn-primary w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium text-white">
                         <i class="ri-login-box-line text-base"></i>
                         <span>Masuk</span>
                     </button>
                 </div>
             </form>
         </div>
-         <p class="text-center text-xs text-slate-600 mt-6 font-mono-custom animate-fadeup delay-5">
+        <p class="text-center text-xs text-slate-600 mt-6 font-mono-custom animate-fadeup delay-5">
             Sistem Manajemen Komponen &copy; {{ date('Y') }}
-         </p>
+        </p>
+
+        <div class="text-center mt-4 animate-fadeup delay-5">
+            <a href="{{ route('restore.awal.form') }}"
+                class="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-amber-400 transition-colors font-mono-custom">
+                <i class="ri-refresh-line"></i>
+                Fresh install? Restore data dulu
+            </a>
+        </div>
     </div>
 
     <script>
