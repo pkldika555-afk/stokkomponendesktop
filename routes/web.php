@@ -58,3 +58,5 @@ Route::get('/komponen/image/{filename}', function ($filename) {
     
     return response()->file($path);
 })->name('komponen.image');
+Route::get('/backup/export-images', [BackupController::class, 'exportImages'])->name('backup.export-images');
+Route::post('/backup/import-images', [BackupController::class, 'importImages'])->name('backup.import-images');

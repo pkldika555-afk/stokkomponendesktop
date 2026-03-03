@@ -12,7 +12,21 @@
 
 
 
-
+            @if($errors->any())
+                <div class="bg-rose-500/10 border border-rose-500/30 rounded-xl px-4 py-3 mb-5 flex gap-2.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-rose-400 shrink-0 mt-0.5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div>
+                        <p class="text-rose-400 font-semibold text-xs mb-1">Terjadi kesalahan</p>
+                        @foreach($errors->all() as $e)
+                            <p class="text-rose-300 text-xs">{{ $e }}</p>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
 
             <div class="grid grid-cols-3 gap-2.5 mb-6">
                 <div class="bg-gray-900 border border-gray-800 rounded-xl p-3.5 text-center">
@@ -206,8 +220,8 @@
                             </p>
                         </div>
 
-                        <form id="backup_form" action="{{ route('backup.restore') }}" method="POST" enctype="multipart/form-data"
-                            onsubmit="return confirmRestore()">
+                        <form id="backup_form" action="{{ route('backup.restore') }}" method="POST"
+                            enctype="multipart/form-data" onsubmit="return confirmRestore()">
                             @csrf
 
                             <label for="backup_file"
@@ -242,7 +256,94 @@
                         </form>
                     </div>
                 </div>
+{{-- Card Export/Import Gambar --}}
+<div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+    <div class="px-5 py-4 border-b border-gray-800">
+        <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 bg-violet-500/15 rounded-xl flex items-center justify-center shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-violet-400" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-sm font-semibold text-gray-200">Backup & Restore Gambar</p>
+                <p class="text-xs text-gray-500">Export/import semua gambar komponen sebagai file .zip</p>
+            </div>
+        </div>
+    </div>
 
+    <div class="px-5 py-4 space-y-3">
+
+        {{-- Export ZIP --}}
+        <div class="flex items-center justify-between p-3.5 bg-gray-800/50 rounded-xl border border-gray-700/50">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 bg-violet-900/50 rounded-lg flex items-center justify-center">
+                    <span class="text-xs font-bold text-violet-400 font-mono">ZIP</span>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-200 font-medium">Export Gambar</p>
+                    <p class="text-xs text-gray-500">Unduh semua gambar komponen dalam satu file .zip</p>
+                </div>
+            </div>
+            <a href="{{ route('backup.export-images') }}"
+                class="flex items-center gap-1.5 bg-violet-600 hover:bg-violet-500 text-white rounded-lg px-4 py-2 text-xs font-semibold transition-colors shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Export .zip
+            </a>
+        </div>
+
+        {{-- Import ZIP --}}
+        <div class="p-3.5 bg-gray-800/50 rounded-xl border border-gray-700/50">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-9 h-9 bg-amber-900/50 rounded-lg flex items-center justify-center shrink-0">
+                    <span class="text-xs font-bold text-amber-400 font-mono">ZIP</span>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-200 font-medium">Import Gambar</p>
+                    <p class="text-xs text-gray-500">Upload file .zip hasil export gambar</p>
+                </div>
+            </div>
+
+            <form action="{{ route('backup.import-images') }}" method="POST" enctype="multipart/form-data"
+                id="import_zip_form">
+                @csrf
+                <label for="zip_file"
+                    class="flex items-center gap-3 border border-dashed border-gray-700 hover:border-violet-500/60 rounded-lg px-4 py-3 cursor-pointer transition-colors group mb-3"
+                    id="zip_dropzone">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 group-hover:text-violet-400 transition-colors shrink-0"
+                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-xs text-gray-400 group-hover:text-gray-300 transition-colors truncate"
+                            id="zip_label"><strong>Klik</strong> atau <strong>Drag</strong> file .zip</p>
+                        <p class="text-xs text-gray-600 mt-0.5">Maks. 50MB</p>
+                    </div>
+                    <input type="file" id="zip_file" name="zip_file" accept=".zip" class="hidden"
+                        onchange="updateZipDropzone(this)">
+                </label>
+
+                <button type="submit"
+                    class="w-full flex items-center justify-center gap-1.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg px-4 py-2 text-xs font-semibold transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12" />
+                    </svg>
+                    Import Gambar
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
                 <div class="bg-gray-900/50 border border-gray-800/60 rounded-2xl px-5 py-4">
                     <p class="text-xs font-semibold text-gray-400 mb-3 uppercase tracking-wider">Cara Pindah Data ke PC Lain
                     </p>
@@ -253,56 +354,55 @@
                                 ['indigo', '3', 'Di PC baru, buka halaman ini lalu upload file backup'],
                                 ['indigo', '4', 'Klik <strong>Restore Sekarang</strong> — semua data akan dipulihkan'],
                             ] as [$color, $num, $text])
-                                <li class="flex items-start gap-2.5">
+                                        <li class="flex items-start gap-2.5">
                                     <span class="w-5 h-5 bg-indigo-500/20 text-indigo-400 rounded-full text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">{{ $num }}</span>
                                         <p class="text-xs text-gray-500 leading-relaxed">{!! $text !!}</p>
                             </li>
                         @endforeach
-                </ol>
+            </ol>
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
         <script>
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('backup_file');
         const label = document.getElementById('dropzone-label');
-
         function updateDropzone(input) {
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 label.textContent = '✓ ' + file.name;
                 label.classList.add('text-emerald-400');
-                label.classList.remove('text-gray-400');
-                document.getElementById('dropzone').classList.add('border-emerald-500/40');
-                document.getElementById('dropzone').classList.remove('border-gray-700');
-            }
+            label.classList.remove('text-gray-400');
+            document.getElementById('dropzone').classList.add('border-emerald-500/40');
+            document.getElementById('dropzone').classList.remove('border-gray-700');
         }
-            function confirmRestore() {
-                const file = document.getElementById('backup_file').files[0];
-                if (!file) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Pilih file terlebih dahulu',
-                        text: 'Silakan pilih file backup sebelum melanjutkan.',
-                        background: '#0f172a',
-                        color: '#cbd5e1',
-                    });
-                    return false;
-                }
+    }
+        function confirmRestore() {
+            const file = document.getElementById('backup_file').files[0];
+            if (!file) {
                 Swal.fire({
-                    title: '⚠️ PERHATIAN',
-                    text: 'Semua data yang ada sekarang akan dihapus dan diganti dengan data dari file backup.',
                     icon: 'warning',
+                    title: 'Pilih file terlebih dahulu',
+                    text: 'Silakan pilih file backup sebelum melanjutkan.',
                     background: '#0f172a',
                     color: '#cbd5e1',
-                    showCancelButton: true,
-                    confirmButtonColor: '#ef4444',
-                    cancelButtonColor: '#475569',
-                    confirmButtonText: 'Lanjutkan',
-                    cancelButtonText: 'Batal',
-                }).then(result => {
-                    if (result.isConfirmed) {
+                });
+                return false;
+            }
+            Swal.fire({
+                title: '⚠️ PERHATIAN',
+                text: 'Semua data yang ada sekarang akan dihapus dan diganti dengan data dari file backup.',
+                icon: 'warning',
+                background: '#0f172a',
+                color: '#cbd5e1',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#475569',
+                confirmButtonText: 'Lanjutkan',
+                cancelButtonText: 'Batal',
+            }).then(result => {
+                if (result.isConfirmed) {
                         document.querySelector('#backup_form').submit();
                     }
                 });
@@ -321,16 +421,44 @@
             dropzone.addEventListener(event, () => {
                 dropzone.classList.remove('border-emerald-500', 'bg-emerald-500/10');
             });
-        });
+            });
         dropzone.addEventListener('drop', e => {
             const dt = new DataTransfer();
             dt.items.add(e.dataTransfer.files[0]);
             fileInput.files = dt.files;
+        updateDropzone(fileInput);
+            });
+            document.getElementById('modalExport').addEventListener('click', function (e) {
+                if (e.target === this) this.classList.add('hidden');
+            });
+            // ZIP dropzone
+function updateZipDropzone(input) {
+    if (input.files && input.files[0]) {
+        const label = document.getElementById('zip_label');
+        label.innerHTML = '✓ ' + input.files[0].name;
+        label.classList.add('text-emerald-400');
+        document.getElementById('zip_dropzone').classList.add('border-emerald-500/40');
+        document.getElementById('zip_dropzone').classList.remove('border-gray-700');
+    }
+}
 
-            updateDropzone(fileInput);
-        });
-        document.getElementById('modalExport').addEventListener('click', function (e) {
-            if (e.target === this) this.classList.add('hidden');
-        });
-        </script>
+const zipDropzone = document.getElementById('zip_dropzone');
+const zipInput = document.getElementById('zip_file');
+
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+    zipDropzone.addEventListener(e, ev => { ev.preventDefault(); ev.stopPropagation(); });
+});
+['dragenter', 'dragover'].forEach(e => {
+    zipDropzone.addEventListener(e, () => zipDropzone.classList.add('border-violet-500', 'bg-violet-500/10'));
+});
+['dragleave', 'drop'].forEach(e => {
+    zipDropzone.addEventListener(e, () => zipDropzone.classList.remove('border-violet-500', 'bg-violet-500/10'));
+});
+zipDropzone.addEventListener('drop', e => {
+    const dt = new DataTransfer();
+    dt.items.add(e.dataTransfer.files[0]);
+    zipInput.files = dt.files;
+    updateZipDropzone(zipInput);
+});
+            </script>
 @endsection

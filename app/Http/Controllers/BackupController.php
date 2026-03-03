@@ -11,7 +11,8 @@ use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use ZanySoft\LaravelZip\LaravelZip;
+use ZanySoft\Zip\Zip;
+
 class BackupController extends Controller
 {
     public function index()
@@ -208,38 +209,89 @@ class BackupController extends Controller
     }
     public function export()
     {
+        $backupDir = storage_path('app/app_data/backup');
+        $imagesDir = storage_path('app/app_data/images');
+        File::ensureDirectoryExists($backupDir);
+
         $data = [
             'meta' => ['created_at' => now()],
-            'komponen' => MasterKomponen::all()->map(fn($k) => $k->toArray())->toArray(),
-
+            'komponen' => MasterKomponen::all()->toArray(),
         ];
-
-        $jsonPath = base_path('app_data/backup/komponen-' . now()->format('Ymd-His') . '.json');
+        $jsonPath = $backupDir . '/komponen-' . now()->format('Ymd-His') . '.json';
         file_put_contents($jsonPath, json_encode($data, JSON_PRETTY_PRINT));
 
-        $zipPath = base_path('app_data/backup/images-' . now()->format('Ymd-His') . '.zip');
-        $zip = LaravelZip::create($zipPath);
-        $zip->add(base_path('app_data/images'), 'images');
+        $zipPath = $backupDir . '/backup-' . now()->format('Ymd-His') . '.zip';
+
+        $zip = new Zip();          // ✅ fix
+        $zip->create($zipPath);
+        $zip->add($jsonPath);
+
+        if (File::isDirectory($imagesDir)) {
+            foreach (File::files($imagesDir) as $file) {
+                $zip->add($file->getPathname());
+            }
+        }
         $zip->close();
 
-        return response()->download($zipPath)->deleteFileAfterSend(true);
+        File::delete($jsonPath);
 
+        return response()->download($zipPath, 'backup.zip')
+            ->deleteFileAfterSend(true);
     }
+    // export
+    public function exportImages()
+    {
+        $imagesDir = storage_path('app/app_data/images');
+        $backupDir = storage_path('app/app_data/backup');
+
+        File::ensureDirectoryExists($backupDir);
+
+        if (!File::isDirectory($imagesDir) || empty(File::files($imagesDir))) {
+            return back()->with('error', 'Tidak ada gambar untuk di-export.');
+        }
+
+        $zipPath = $backupDir . '/images-' . now()->format('Ymd-His') . '.zip';
+
+        $zip = new Zip();
+        $zip->create($zipPath);
+        foreach (File::files($imagesDir) as $file) {
+            $zip->add($file->getPathname());
+        }
+        $zip->close();
+
+        return response()->download($zipPath, 'images-backup.zip')
+            ->deleteFileAfterSend(true);
+    }
+
+    // import
     public function importImages(Request $request)
     {
-        $request->validate(['zip_file' => 'required|mimes:zip|max:10240']);
+        $request->validate(['zip_file' => 'required|mimes:zip|max:51200']);
 
-        $zip = LaravelZip::open($request->file('zip_file')->path());
-        $extractTo = base_path('app_data/images');
+        $imagesDir = storage_path('app/app_data/images');
+        File::ensureDirectoryExists($imagesDir);
 
-        File::ensureDirectoryExists($extractTo);
-
-        $zip->extract($extractTo, function ($file) {
-            return str_starts_with($file->getName(), 'images/');
-        });
-
+        $zip = new Zip();
+        $zip->open($request->file('zip_file')->getPathname());
+        $zip->extract($imagesDir);
         $zip->close();
 
-        return back()->with('success', 'Gambar berhasil diimport dari ZIP!');
+        // Pindahkan dari subfolder jika ada
+        $subFolder = $imagesDir . DIRECTORY_SEPARATOR . 'images';
+        if (File::isDirectory($subFolder)) {
+            foreach (File::files($subFolder) as $file) {
+                $ext = strtolower($file->getExtension());
+                if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp'])) {
+                    File::move(
+                        $file->getPathname(),
+                        $imagesDir . DIRECTORY_SEPARATOR . $file->getFilename()
+                    );
+                }
+            }
+            File::deleteDirectory($subFolder);
+        }
+
+        $count = count(File::files($imagesDir));
+        return back()->with('success', "{$count} gambar berhasil diimport!");
     }
 }
