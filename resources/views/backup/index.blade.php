@@ -311,7 +311,13 @@
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropzone.addEventListener(eventName, e => e.preventDefault());
             dropzone.addEventListener(eventName, e => e.stopPropagation());
+        });
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.add('border-emerald-500', 'bg-emerald-500/10')
+            })
         })
+        
         document.getElementById('modalExport').addEventListener('click', function (e) {
             if (e.target === this) this.classList.add('hidden');
         });
