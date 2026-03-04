@@ -7,6 +7,7 @@ use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\UserController;
 use App\Models\MasterKomponen;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -27,6 +28,7 @@ Route::get('/', function () {
 });
 Route::resource('komponen', MasterController::class)->middleware('auth');   
 Route::resource('departemen', DepartemenController::class)->middleware('auth');   
+Route::resource('user', UserController::class)->middleware('auth');
 
 Route::get('/laporan/transaksi', [LaporanController::class, 'index'])->name('laporan.transaksi');
 
