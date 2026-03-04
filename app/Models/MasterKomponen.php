@@ -22,6 +22,7 @@ class MasterKomponen extends Model
         'departemen_id',
         'harga',
         'gambar',
+        'status',
     ];
     // hanya dua tipe sekarang, untuk konsistensi dengan tabel mutasi
     const JENIS_MASUK = ['masuk'];

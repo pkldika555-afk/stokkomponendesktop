@@ -141,34 +141,95 @@
                                 <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
                             @enderror
                         </div>
-                    </div>
-                    <div>
-                        <label for="tipe" class="block text-sm font-medium text-gray-300 mb-1.5">
-                            Tipe <span class="text-rose-400">*</span>
-                        </label>
-                        <input type="text" id="tipe" name="tipe" value="{{ old('tipe', $komponen->tipe) }}"
-                            placeholder="Contoh: DDIP"
-                            class="w-full bg-gray-800 border {{ $errors->has('tipe') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition placeholder-gray-600 font-mono">
-                        @error('tipe')
-                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label for="stok_minimal" class="block text-sm font-medium text-gray-300 mb-1.5">
-                            Stok Minimum
-                            <span class="ml-1 text-xs text-gray-500 font-normal">(batas alert stok rendah)</span>
-                        </label>
-                        <div class="relative">
-                            <input type="number" id="stok_minimal" name="stok_minimal"
-                                value="{{ old('stok_minimal', $komponen->stok_minimal) }}" min="0"
-                                class="w-full bg-gray-800 border {{ $errors->has('stok_minimum') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">unit</span>
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-300 mb-1.5">
+                                Status <span class="text-rose-400">*</span>
+                            </label>
+                            <select id="status" name="status"
+                                class="w-full bg-gray-800 border {{ $errors->has('status') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                                <option value="">— Pilih Status —</option>
+                                @foreach(['baru', 'bekas'] as $s)
+                                    <option value="{{ $s }}" {{ old('status', $komponen->status) == $s ? 'selected' : '' }}>
+                                        {{ strtoupper($s) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('status')
+                                <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                            @enderror
                         </div>
-                        @error('stok_minimal')
-                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
-                        @enderror
-                    </div>
+                        <div>
+                            <label for="tipe" class="block text-sm font-medium text-gray-300 mb-1.5">
+                                Tipe <span class="text-rose-400">*</span>
+                            </label>
+                            <input type="text" id="tipe" name="tipe" value="{{ old('tipe', $komponen->tipe) }}"
+                                placeholder="Contoh: DDIP"
+                                class="w-full bg-gray-800 border {{ $errors->has('tipe') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition placeholder-gray-600 font-mono">
+                            @error('tipe')
+                                <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="stok_minimal" class="block text-sm font-medium text-gray-300 mb-1.5">
+                                Stok Minimum
+                                <span class="ml-1 text-xs text-gray-500 font-normal">(batas alert stok rendah)</span>
+                            </label>
+                            <div class="relative">
+                                <input type="number" id="stok_minimal" name="stok_minimal"
+                                    value="{{ old('stok_minimal', $komponen->stok_minimal) }}" min="0"
+                                    class="w-full bg-gray-800 border {{ $errors->has('stok_minimum') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">unit</span>
+                            </div>
+                            @error('stok_minimal')
+                                <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="harga" class="block text-sm font-medium text-gray-300 mb-1.5">
+                                Harga
+                            </label>
 
+                            <div class="relative">
+                                <input type="number" id="harga" name="harga"
+                                    value="{{ old('harga', number_format($komponen->harga ?? 0, 0, ',', '')) }}" min="0"
+                                    class="w-full bg-gray-800 border {{ $errors->has('harga') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">harga</span>
+                            </div>
+                            @error('harga')
+                                <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="rak" class="block text-sm font-medium text-gray-300 mb-1.5">
+                                Rak
+                            </label>
+
+                            <div class="relative">
+                                <input type="number" id="rak" name="rak" value="{{ old('rak', $komponen->rak) }}" min="0"
+                                    class="w-full bg-gray-800 border {{ $errors->has('rak') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">nomor</span>
+                            </div>
+                            @error('rak')
+                                <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label for="lokasi" class="block text-sm font-medium text-gray-300 mb-1.5">
+                                Lot
+                            </label>
+
+                            <div class="relative">
+                                <input type="number" id="lokasi" name="lokasi"
+                                    value="{{ old('lokasi', $komponen->lokasi) }}" min="0"
+                                    class="w-full bg-gray-800 border {{ $errors->has('lokasi') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
+                                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">nomor</span>
+                            </div>
+                            @error('lokasi')
+                                <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                            @enderror
+                        </div>
+                    </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-300 mb-1.5">
                             Stok Saat Ini
@@ -194,51 +255,9 @@
                                 Barang</a>
                         </p>
                     </div>
-                    <div>
-                        <label for="harga" class="block text-sm font-medium text-gray-300 mb-1.5">
-                            Harga
-                        </label>
 
-                        <div class="relative">
-                            <input type="number" id="harga" name="harga"
-                                value="{{ old('harga', number_format($komponen->harga ?? 0, 0, ',', '')) }}" min="0"
-                                class="w-full bg-gray-800 border {{ $errors->has('harga') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">harga</span>
-                        </div>
-                        @error('harga')
-                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label for="rak" class="block text-sm font-medium text-gray-300 mb-1.5">
-                            Rak
-                        </label>
 
-                        <div class="relative">
-                            <input type="number" id="rak" name="rak" value="{{ old('rak', $komponen->rak) }}" min="0"
-                                class="w-full bg-gray-800 border {{ $errors->has('rak') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">nomor</span>
-                        </div>
-                        @error('rak')
-                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
-                        @enderror
-                    </div>
 
-                    <div>
-                        <label for="lokasi" class="block text-sm font-medium text-gray-300 mb-1.5">
-                            Lot
-                        </label>
-
-                        <div class="relative">
-                            <input type="number" id="lokasi" name="lokasi" value="{{ old('lokasi', $komponen->lokasi) }}"
-                                min="0"
-                                class="w-full bg-gray-800 border {{ $errors->has('lokasi') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 pr-16 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition font-mono">
-                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-500">nomor</span>
-                        </div>
-                        @error('lokasi')
-                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
-                        @enderror
-                    </div>
                     <div>
                         <label for="id_departemen" class="block text-xs font-medium text-gray-400 mb-1.5">
                             Bagian <span class="text-rose-400">*</span>

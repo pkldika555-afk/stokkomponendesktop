@@ -330,7 +330,23 @@
                             @enderror
                         </div>
                     </div>
-
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-300 mb-1.5">
+                            Status <span class="text-rose-400">*</span>
+                        </label>
+                        <select id="status" name="status"
+                            class="w-full bg-gray-800 border {{ $errors->has('status') ? 'border-rose-500' : 'border-gray-700' }} text-gray-100 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                            <option value="">— Pilih Status —</option>
+                            @foreach(['baru', 'bekas'] as $s)
+                                <option value="{{ $s }}">
+                                    {{ strtoupper($s) }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('status')
+                            <p class="mt-1.5 text-xs text-rose-400">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <div>
                         <label for="harga" class="block text-sm font-medium text-gray-300 mb-1.5">
                             Harga Satuan (Rp)

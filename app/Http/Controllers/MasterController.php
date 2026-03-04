@@ -40,6 +40,7 @@ class MasterController extends Controller
             'departemen_id' => 'required',
             'harga' => 'required|numeric',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'status' => 'required|in:baru,bekas',
         ]);
 
         // ensure 'gambar' key exists so DB insert doesn't fail
@@ -74,6 +75,7 @@ class MasterController extends Controller
             'lokasi' => 'required',
             'id_departemen' => 'required',
             'harga' => 'required|numeric',
+            'status' => 'required|in:baru,bekas',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         $komponen->update($validate);

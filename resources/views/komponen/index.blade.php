@@ -204,9 +204,9 @@
                         </select>
                     </div>
                     <!-- <button type="submit"
-                                            class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
-                                            Filter
-                                        </button> -->
+                                                class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
+                                                Filter
+                                            </button> -->
                 </div>
                 @if(request()->hasAny(['id_komponen']))
                     <div class="mt-2 text-right">
@@ -241,6 +241,7 @@
                                 <th class="text-right px-6 py-3 font-semibold">Rak</th>
                                 <th class="text-right px-6 py-3 font-semibold">Lot</th>
                                 <th class="text-center px-6 py-3 font-semibold">Bagian</th>
+                                <th class="text-center px-6 py-3 font-semibold">Status</th>
                                 <th class="text-center px-6 py-3 font-semibold">Tanggal input</th>
                                 <th class="text-center px-6 py-3 font-semibold">Aksi</th>
                             </tr>
@@ -286,8 +287,8 @@
                                         <div class="flex items-center gap-3">
                                             <!-- <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0"> -->
                                             <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
-                                                                                                                                                        </svg> -->
+                                                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+                                                                                                                                                                </svg> -->
                                             <!-- </div> -->
                                             <span class="font-medium text-gray-100">{{ $k->tipe }}</span>
                                         </div>
@@ -309,6 +310,15 @@
                                     <td class="px-6 py-4 text-gray-400">{{ $k->rak ?? '-' }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->lokasi ?? '-' }}</td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->departemen->nama_departemen ?? '-' }}</td>
+                                    <td>
+                                        @if ($k->status == 'baru')
+                                            <span
+                                                class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full ml-2">BARU</span>
+                                        @elseif ($k->status == 'bekas')
+                                            <span
+                                                class="text-xs bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-full ml-2">BEKAS</span>
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 text-gray-400">{{ $k->created_at ?? '-' }}</td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center justify-center gap-2">

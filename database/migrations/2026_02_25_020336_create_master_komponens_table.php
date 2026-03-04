@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('lokasi');
             $table->integer('stok')->default(0);
             $table->integer('stok_minimal')->default(0);
+            $table->enum('status', ['bekas', 'baru'])->default('baru');
             $table->timestamps();
             $table->foreignId('departemen_id')->constrained('departemen')->cascadeOnDelete();
         });
