@@ -285,13 +285,14 @@
                     <i class="ri-pie-chart-2-fill text-base {{ request()->is('dashboard') ? 'text-white' : 'text-slate-500 group-hover:text-sky-400' }} transition-colors"></i>
                     <span>Dashboard</span>
                 </a>
-
+                @if (Auth::user()->role === 'admin')                    
                 <a href="/user"
                     class="sidebar__link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                            {{ request()->is('user*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
                     <i class="ri-user-line text-base {{ request()->is('user*') ? 'text-white' : 'text-slate-500 group-hover:text-sky-400' }} transition-colors"></i>
                     <span>Master User</span>
                 </a>
+                @endif
                 <a href="/komponen"
                     class="sidebar__link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
                            {{ request()->is('komponen*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
