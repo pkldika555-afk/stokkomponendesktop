@@ -268,7 +268,7 @@
 
                                     <td class="px-6 py-4">
                                         <div class="flex items-center justify-center gap-2">
-                                            <a href="{{ route('departemen.edit', $k->id) }}"
+                                            <a href="{{ route('user.edit', $k->id) }}"
                                                 class="w-8 h-8 flex items-center justify-center rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 hover:bg-amber-500/20 transition-colors duration-150"
                                                 title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none"

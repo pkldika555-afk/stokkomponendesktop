@@ -34,4 +34,27 @@ class UserController extends Controller
         $user = User::create($validate);
         return redirect()->route(route: 'user.index')->with('success', 'Data berhasil ditambahkan');
     }
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('user.edit', compact('user'));
+    }
+    public function update(Request $request, $id)
+    {
+        $validate = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'required|min:6',
+            'nrp' => 'required|unique:users,nrp,' . $id,
+            'role' => 'required|in:admin,user',
+        ]);
+        if ($request->filled('password')) {
+            $validate['password'] = bcrypt($validate['password']);
+        } else {
+            unset($validate['password']);
+        }
+        $user = User::findOrFail($id);
+        $user->update($validate);
+        return redirect()->route(route: 'user.index')->with('success', 'Data berhasil diubah');
+    }
 }
