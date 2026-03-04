@@ -169,8 +169,8 @@
             <div class="flex items-start justify-between mb-8">
                 <div>
                     <p class="text-xs uppercase tracking-[0.3em] text-indigo-400 font-semibold mb-1">Master Data</p>
-                    <h2 class="text-3xl font-bold text-white">Departemen</h2>
-                    <p class="text-gray-500 text-sm mt-1">Kelola data Departemen</p>
+                    <h2 class="text-3xl font-bold text-white">User</h2>
+                    <p class="text-gray-500 text-sm mt-1">Kelola data User</p>
                 </div>
                 <a href="{{ route('departemen.create') }}"
                     class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl px-5 py-2.5 text-sm transition-colors duration-200 mt-1">
@@ -178,7 +178,7 @@
                         stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
-                    Tambah Departemen
+                    Tambah User
                 </a>
 
             </div>
@@ -193,12 +193,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
                         </svg>
-                        <select name="id_departemen" id="filter-departemen"
+                        <select name="id_user" id="filter-user"
                             class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none">
-                            <option value="">Semua Departemen</option>
-                            @foreach($allDepartemen as $k)
-                                <option value="{{ $k->id }}" {{ request('id_departemen') == $k->id ? 'selected' : '' }}>
-                                    {{ $k->nama_departemen }}
+                            <option value="">Semua User</option>
+                            @foreach($alluser as $k)
+                                <option value="{{ $k->id }}" {{ request('id_user') == $k->id ? 'selected' : '' }}>
+                                    {{ $k->nama_user }}
                                 </option>
                             @endforeach
                         </select>
@@ -208,9 +208,9 @@
                                         Filter
                                     </button> -->
                 </div>
-                @if(request()->hasAny(['id_departemen']))
+                @if(request()->hasAny(['id_user']))
                     <div class="mt-2 text-right">
-                        <a href="{{ route('departemen.index') }}"
+                        <a href="{{ route('user.index') }}"
                             class="text-xs text-gray-500 hover:text-gray-300 underline">Reset
                             filter</a>
                     </div>
@@ -220,9 +220,9 @@
 
             <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-800 flex items-center justify-between">
-                    <p class="text-sm font-semibold text-gray-200">Daftar Departemen</p>
+                    <p class="text-sm font-semibold text-gray-200">Daftar User</p>
                     <span
-                        class="text-xs bg-gray-800 text-gray-400 px-3 py-1 rounded-full">{{ $departemen->total() ?? count($departemen) }}
+                        class="text-xs bg-gray-800 text-gray-400 px-3 py-1 rounded-full">{{ $user->total() ?? count($user) }}
                         item</span>
                 </div>
 
@@ -231,12 +231,15 @@
                         <thead>
                             <tr class="bg-gray-800/60 text-xs uppercase tracking-wider text-gray-400">
                                 <th class="text-left px-6 py-3 font-semibold w-10">#</th>
-                                <th class="text-left px-6 py-3 font-semibold">Nama Departemen</th>
+                                <th class="text-left px-6 py-3 font-semibold">Nama User</th>
+                                <th class="text-left px-6 py-3 font-semibold">NRP</th>
+                                <th class="text-left px-6 py-3 font-semibold">Email</th>
+                                <th class="text-left px-6 py-3 font-semibold">Role</th>
                                 <th class="text-left px-6 py-3 font-semibold">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-800">
-                            @forelse($departemen as $index => $k)
+                            @forelse($user as $index => $k)
                                 <tr class="hover:bg-gray-800/40 transition-colors duration-150 group">
 
                                     <td class="px-6 py-4 text-gray-600 text-xs">
@@ -245,15 +248,22 @@
 
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-3">
-                                            <div
-                                                class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-400"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18" />
-                                                </svg>
-                                            </div>
-                                            <span class="font-medium text-gray-100">{{ $k->nama_departemen }}</span>
+                                            <span class="font-medium text-gray-100">{{ $k->name }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <span class="font-medium text-gray-100">{{ $k->nrp }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <span class="font-medium text-gray-100">{{ $k->email }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-3">
+                                            <span class="font-medium text-gray-100">{{ $k->role }}</span>
                                         </div>
                                     </td>
 
@@ -304,8 +314,8 @@
                     </table>
                 </div>
 
-                @if(method_exists($departemen, 'links'))
-                    {{ $departemen->appends(request()->query())->links() }}
+                @if(method_exists($user, 'links'))
+                    {{ $user->appends(request()->query())->links() }}
                 @endif
             </div>
 
