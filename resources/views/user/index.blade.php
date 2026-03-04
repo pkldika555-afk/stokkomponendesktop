@@ -277,7 +277,7 @@
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </a>
-                                            <form action="{{ route('departemen.destroy', $k->id) }}" method="POST" data-confirm="Hapus departemen ini?">
+                                            <form action="{{ route('user.destroy', $k->id) }}" method="POST" data-confirm="Hapus departemen ini?">
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 transition-colors duration-150"
