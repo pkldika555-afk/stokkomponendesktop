@@ -7,6 +7,7 @@ use App\Http\Controllers\DepartemenController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Models\MasterKomponen;
 use Illuminate\Support\Facades\Route;
@@ -62,3 +63,5 @@ Route::get('/komponen/image/{filename}', function ($filename) {
 })->name('komponen.image');
 Route::get('/backup/export-images', [BackupController::class, 'exportImages'])->name('backup.export-images');
 Route::post('/backup/import-images', [BackupController::class, 'importImages'])->name('backup.import-images');
+Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
+Route::post('/setting', [SettingController::class, 'update'])->name('setting.update');
