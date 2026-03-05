@@ -393,7 +393,7 @@
                            {{ request()->is('setting*') ? 'active-link text-white' : 'text-slate-400 hover:text-blue-400 hover:bg-blue-500/10' }}">
                     <i
                         class="ri-settings-3-line text-base text-slate-500 group-hover:text-blue-400 transition-colors"></i>
-                    <span> Pengaturan</span>
+                    <span> Konfigurasi</span>
                 </a>
             </div>
             <div class="px-3 border-t border-slate-800/60">

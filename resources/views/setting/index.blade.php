@@ -106,14 +106,14 @@
                     <i class="ri-save-line text-sm"></i>
                     Simpan Perubahan
                 </button>
-                <button type="reset"
+                <!-- <button type="reset"
                         class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white transition-all duration-200"
                         style="background:rgba(30,41,59,0.6); border:1px solid rgba(51,65,85,0.8);"
                         onmouseover="this.style.borderColor='rgba(99,102,241,0.4)'; this.style.color='white'"
                         onmouseout="this.style.borderColor='rgba(51,65,85,0.8)'; this.style.color=''">
                     <i class="ri-refresh-line text-sm"></i>
                     Reset
-                </button>
+                </button> -->
             </div>
 
         </form>
