@@ -193,24 +193,24 @@
                                 d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
                         </svg>
                         <select name="id_user" id="filter-user"
+                            onchange="window.location.href = '{{ route('user.index') }}' + (this.value ? '?id_user=' + this.value : '')"
                             class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none">
                             <option value="">Semua User</option>
                             @foreach($alluser as $k)
                                 <option value="{{ $k->id }}" {{ request('id_user') == $k->id ? 'selected' : '' }}>
-                                    {{ $k->nama_user }}
+                                    {{ $k->name }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
                     <!-- <button type="submit"
-                                        class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
-                                        Filter
-                                    </button> -->
+                                            class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
+                                            Filter
+                                        </button> -->
                 </div>
                 @if(request()->hasAny(['id_user']))
                     <div class="mt-2 text-right">
-                        <a href="{{ route('user.index') }}"
-                            class="text-xs text-gray-500 hover:text-gray-300 underline">Reset
+                        <a href="{{ route('user.index') }}" class="text-xs text-gray-500 hover:text-gray-300 underline">Reset
                             filter</a>
                     </div>
                 @endif
@@ -277,7 +277,8 @@
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </a>
-                                            <form action="{{ route('user.destroy', $k->id) }}" method="POST" data-confirm="Hapus departemen ini?">
+                                            <form action="{{ route('user.destroy', $k->id) }}" method="POST"
+                                                data-confirm="Hapus departemen ini?">
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 transition-colors duration-150"
@@ -324,8 +325,8 @@
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script>
         $(document).ready(function () {
-            $('#filter-departemen').select2({
-                placeholder: "Cari Departemen...",
+            $('#filter-user').select2({
+                placeholder: "Cari user...",
                 allowClear: true,
                 width: 'resolve',
                 dropdownParent: $('form')

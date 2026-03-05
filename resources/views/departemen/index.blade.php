@@ -183,7 +183,6 @@
 
             </div>
 
-
             <form method="GET" class="mb-5">
                 <div class="flex items-center gap-2">
                     <div class="relative flex-1">
@@ -193,7 +192,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
                         </svg>
-                        <select name="id_departemen" id="filter-departemen"
+                        <select name="id_departemen" id="filter-departemen" onchange="this.form.submit()"
                             class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none">
                             <option value="">Semua Departemen</option>
                             @foreach($allDepartemen as $k)
@@ -204,9 +203,9 @@
                         </select>
                     </div>
                     <!-- <button type="submit"
-                                        class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
-                                        Filter
-                                    </button> -->
+                                                class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
+                                                Filter
+                                            </button> -->
                 </div>
                 @if(request()->hasAny(['id_departemen']))
                     <div class="mt-2 text-right">
@@ -268,7 +267,8 @@
                                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                 </svg>
                                             </a>
-                                            <form action="{{ route('departemen.destroy', $k->id) }}" method="POST" data-confirm="Hapus departemen ini?">
+                                            <form action="{{ route('departemen.destroy', $k->id) }}" method="POST"
+                                                data-confirm="Hapus departemen ini?">
                                                 @csrf @method('DELETE')
                                                 <button type="submit"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 hover:bg-rose-500/20 transition-colors duration-150"

@@ -7,7 +7,9 @@
     <title>Login - Komponen</title>
     <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
-    @vite('resources/css/app.css', 'resources/js/app.js')
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Dc_9RrAu.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BVDtCyLL.css') }}">
+    <script src="{{ asset('build/assets/app-BnNQtnyF.js') }}" defer></script>
     <style>
         body {
             font-family: 'DM Sans', sans-serif;

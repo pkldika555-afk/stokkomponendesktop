@@ -193,26 +193,24 @@
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
                         </svg>
-                        <select name="id_komponen" id="filter-komponen"
-                            class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition appearance-none">
-                            <option value="">Semua Komponen</option>
-                            @foreach($allKomponen as $k)
-                                <option value="{{ $k->id }}" {{ request('id_komponen') == $k->id ? 'selected' : '' }}>
-                                    {{ $k->nama_komponen }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="search" id="search-komponen" value="{{ request('search') }}"
+                            placeholder="Cari nama atau kode komponen..." autocomplete="off"
+                            class="w-full bg-gray-800 border border-gray-700 text-gray-300 rounded-lg pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+
+                        <!-- Dropdown suggestion -->
+                        <div id="suggestion-box"
+                            class="absolute z-50 w-full bg-gray-900 border border-gray-700 rounded-lg mt-1 hidden max-h-48 overflow-y-auto shadow-xl">
+                        </div>
                     </div>
-                    <!-- <button type="submit"
-                                                class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
-                                                Filter
-                                            </button> -->
+                    <button type="submit"
+                        class="shrink-0 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 text-xs font-medium transition-colors">
+                        Cari
+                    </button>
                 </div>
-                @if(request()->hasAny(['id_komponen']))
+                @if(request('search'))
                     <div class="mt-2 text-right">
                         <a href="{{ route('komponen.index') }}"
-                            class="text-xs text-gray-500 hover:text-gray-300 underline">Reset
-                            filter</a>
+                            class="text-xs text-gray-500 hover:text-gray-300 underline">Reset filter</a>
                     </div>
                 @endif
             </form>
@@ -287,8 +285,8 @@
                                         <div class="flex items-center gap-3">
                                             <!-- <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center shrink-0"> -->
                                             <!-- <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                                                                                                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
-                                                                                                                                                                </svg> -->
+                                                                                                                                                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/>
+                                                                                                                                                                                        </svg> -->
                                             <!-- </div> -->
                                             <span class="font-medium text-gray-100">{{ $k->tipe }}</span>
                                         </div>
@@ -378,16 +376,45 @@
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/select2.min.js') }}"></script>
     <script>
-        $(document).ready(function () {
-            $('#filter-komponen').select2({
-                placeholder: "Cari Komponen...",
-                allowClear: true,
-                width: 'resolve',
-                dropdownParent: $('form')
+        const komponenData = @json($allKomponen->map(fn($k) => ['id' => $k->id, 'nama' => $k->nama_komponen, 'kode' => $k->kode_komponen]));
+
+        const input = document.getElementById('search-komponen');
+        const box = document.getElementById('suggestion-box');
+
+        input.addEventListener('input', function () {
+            const q = this.value.toLowerCase().trim();
+            box.innerHTML = '';
+
+            if (!q) { box.classList.add('hidden'); return; }
+
+            const filtered = komponenData.filter(k =>
+                k.nama.toLowerCase().includes(q) || (k.kode && k.kode.toLowerCase().includes(q))
+            ).slice(0, 8);
+
+            if (!filtered.length) { box.classList.add('hidden'); return; }
+
+            filtered.forEach(k => {
+                const div = document.createElement('div');
+                div.className = 'px-3 py-2 text-xs text-gray-300 hover:bg-indigo-600/30 hover:text-white cursor-pointer flex justify-between items-center';
+                div.innerHTML = `<span>${k.nama}</span><code class="text-indigo-400 text-xs bg-gray-800 px-1.5 py-0.5 rounded">${k.kode ?? ''}</code>`;
+                div.addEventListener('mousedown', function () {
+                    input.value = k.nama;
+                    box.classList.add('hidden');
+                    input.closest('form').submit();
+                });
+                box.appendChild(div);
             });
-            $('#filter-komponen').on('change', function () {
-                $(this).closest('form').submit();
-            });
+
+            box.classList.remove('hidden');
+        });
+
+        // Tutup suggestion kalau klik di luar
+        document.addEventListener('click', function (e) {
+            if (!input.contains(e.target)) box.classList.add('hidden');
+        });
+
+        input.addEventListener('focus', function () {
+            if (this.value) this.dispatchEvent(new Event('input'));
         });
     </script>
 @endsection

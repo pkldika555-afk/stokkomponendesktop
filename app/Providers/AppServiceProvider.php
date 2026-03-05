@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Helpers\AppConfig;
 use App\Models\MutasiBarang;
 use App\Observers\MutasiBarangObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
             return preg_match('/^[0-9]{6}$/', $value);
         }, 'NRP harus terdiri dari 6 digit angka.');
         Paginator::defaultView('vendor.pagination.default');
+        View::share('appConfig', AppConfig::all());
     }
 }

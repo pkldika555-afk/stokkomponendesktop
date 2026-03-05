@@ -12,11 +12,13 @@ class MasterController extends Controller
 {
     public function index(Request $request)
     {
-        $komponen = MasterKomponen::with('departemen')
+        $komponen = MasterKomponen::query()
             ->orderBy('nama_komponen', 'asc')
-            ->when($request->id_komponen, fn($q) => $q->where('id', $request->id_komponen))
-            ->paginate(7);
-
+            ->when($request->search, fn($q) => $q->where(function ($q2) use ($request) {
+                $q2->where('nama_komponen', 'like', '%' . $request->search . '%')
+                    ->orWhere('kode_komponen', 'like', '%' . $request->search . '%');
+            }))
+            ->paginate(10);
         $allKomponen = MasterKomponen::orderBy('nama_komponen', 'asc')->get();
         $departemen = Departemen::all();
 
@@ -85,7 +87,8 @@ class MasterController extends Controller
                 Storage::disk('app_data_images')->delete($komponen->gambar);
             }
 
-             $filename = Str::slug($komponen->kode_komponen) . '-' . time() . '.' . $request->gambar->extension();'.' . $request->gambar->extension();
+            $filename = Str::slug($komponen->kode_komponen) . '-' . time() . '.' . $request->gambar->extension();
+            '.' . $request->gambar->extension();
             $request->gambar->storeAs('', $filename, 'app_data_images');
             $komponen->update(['gambar' => $filename]);
         }

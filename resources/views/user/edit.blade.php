@@ -14,8 +14,8 @@
                     Kembali ke Daftar User
                 </a>
                 <p class="text-xs uppercase tracking-[0.3em] text-indigo-400 font-semibold mb-1">Master Data</p>
-                <h2 class="text-3xl font-bold text-white">Tambah User</h2>
-                <p class="text-gray-500 text-sm mt-1">Isi data user baru yang akan ditambahkan</p>
+                <h2 class="text-3xl font-bold text-white">Edit User</h2>
+                <p class="text-gray-500 text-sm mt-1">Edit data user yang sudah ada</p>
             </div>
 
             @if($errors->any())
