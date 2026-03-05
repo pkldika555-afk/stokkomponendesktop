@@ -43,7 +43,7 @@
 
             <div>
                 <label class="block font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mb-2">
-                    Nama Aplikasi
+                    Judul di Tampilan Awal
                 </label>
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
