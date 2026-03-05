@@ -18,7 +18,7 @@ class MasterController extends Controller
                 $q2->where('nama_komponen', 'like', '%' . $request->search . '%')
                     ->orWhere('kode_komponen', 'like', '%' . $request->search . '%');
             }))
-            ->paginate(10);
+            ->paginate(perPage: 7);
         $allKomponen = MasterKomponen::orderBy('nama_komponen', 'asc')->get();
         $departemen = Departemen::all();
 

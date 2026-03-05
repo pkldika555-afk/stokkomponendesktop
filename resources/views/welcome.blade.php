@@ -124,7 +124,6 @@
 
     <div class="bg-grid min-h-screen flex flex-col">
 
-        {{-- ── Navbar ── --}}
         <header class="border-b border-slate-800/60 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
             <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
 
@@ -154,16 +153,13 @@
             </div>
         </header>
 
-        {{-- ── Hero ── --}}
         <main class="flex-1 flex flex-col items-center justify-center px-6 py-20 text-center">
 
-            {{-- Badge --}}
             <div class="au d1 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-mono-custom text-indigo-300 mb-8">
                 <span class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
-                Sistem Manajemen Komponen · v2.0
+                {{ $appConfig['app_name'] ?? 'Sistem Manajemen Komponen' }}
             </div>
 
-            {{-- Headline --}}
             <h1 class="au d2 font-display font-800 text-4xl sm:text-5xl lg:text-6xl text-white leading-tight tracking-tight max-w-3xl mb-6">
                 Kelola Komponen <br>
                 <span class="gradient-text">Lebih Efisien</span>
@@ -173,7 +169,6 @@
                 Platform terpusat untuk manajemen inventaris komponen, mutasi barang, dan monitoring stok antar departemen secara real-time.
             </p>
 
-            {{-- CTA --}}
             <div class="au d4 flex items-center gap-3 mb-16">
                 @auth
                     <a href="{{ url('/dashboard') }}"
@@ -195,7 +190,6 @@
                 @endauth
             </div>
 
-            {{-- Stats bar --}}
             <div class="au d5 w-full max-w-2xl rounded-2xl bg-slate-900/60 border border-slate-800/60 backdrop-blur-md grid grid-cols-3 mb-20">
                 <div class="stat-item px-6 py-5 text-center">
                     <p class="font-display font-700 text-white text-2xl">5</p>
@@ -211,7 +205,6 @@
                 </div>
             </div>
 
-            {{-- Feature cards --}}
             <div class="au d6 w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-16">
 
                 <div class="feature-card rounded-2xl p-6 text-left">

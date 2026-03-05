@@ -320,7 +320,7 @@
                         <i class="ri-box-3-fill text-white"></i>
                     </span>
                     <div>
-                        <p class="font-display font-700 text-white text-base leading-none tracking-tight">Komponen</p>
+                        <p class="font-display font-700 text-white text-base leading-none tracking-tight">{{ $appConfig['app_judul'] ?? 'Komponen' }}</p>
                         <p class="font-mono-custom text-xs text-slate-500 mt-0.5">v2.0 system</p>
                     </div>
                 </a>
@@ -387,6 +387,15 @@
                 </a>
             </div>
 
+            <div class="px-3 border-t border-slate-800/60">
+                <a href="{{ route('setting.index') }}"
+                    class="sidebar-action-btn sidebar__link group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium
+                           {{ request()->is('setting*') ? 'active-link text-white' : 'text-slate-400 hover:text-blue-400 hover:bg-blue-500/10' }}">
+                    <i
+                        class="ri-settings-3-line text-base text-slate-500 group-hover:text-blue-400 transition-colors"></i>
+                    <span> Pengaturan</span>
+                </a>
+            </div>
             <div class="px-3 border-t border-slate-800/60">
                 <a href="{{ route('backup.index') }}"
                     class="sidebar-action-btn sidebar__link group w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium

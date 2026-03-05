@@ -169,7 +169,9 @@
             <div class="flex items-start justify-between mb-8">
                 <div>
                     <p class="text-xs uppercase tracking-[0.3em] text-indigo-400 font-semibold mb-1">Master Data</p>
-                    <h2 class="text-3xl font-bold text-white">Komponen</h2>
+                    <h2 class="text-3xl font-bold text-white">
+                        {{ $appConfig['app_judult'] ?? 'Komponen' }}
+                    </h2>
                     <p class="text-gray-500 text-sm mt-1">Kelola data komponen inventaris</p>
                 </div>
                 <a href="{{ route('komponen.create') }}"
