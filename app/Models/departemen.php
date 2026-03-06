@@ -20,4 +20,8 @@ class Departemen extends Model
     {
         return $this->hasMany(MutasiBarang::class, 'id_departemen_tujuan');
     }
+    public function komponen()
+    {
+        return $this->hasMany(MasterKomponen::class, 'departemen_id');
+    }
 }

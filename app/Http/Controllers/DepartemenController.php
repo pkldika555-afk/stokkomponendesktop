@@ -47,6 +47,9 @@ class DepartemenController extends Controller
     public function destroy($id)
     {
         $departemen = departemen::findOrFail($id);
+        if ($departemen->komponen()->exists()){
+            return redirect()->route('departemen.index')->with('error', 'Departemen tidak bisa dihapus karena masih digunakan oleh ' . $departemen->komponen()->count() . ' komponen.');
+        }
         $departemen->delete();
         return redirect()->route(route: 'departemen.index')->with('success', 'Data berhasil dihapus');
     }

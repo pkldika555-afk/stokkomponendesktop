@@ -192,11 +192,11 @@
 
             <div class="au d5 w-full max-w-2xl rounded-2xl bg-slate-900/60 border border-slate-800/60 backdrop-blur-md grid grid-cols-3 mb-20">
                 <div class="stat-item px-6 py-5 text-center">
-                    <p class="font-display font-700 text-white text-2xl">5</p>
+                    <p class="font-display font-700 text-white text-2xl">{{ $departemen }}</p>
                     <p class="font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mt-1">Departemen</p>
                 </div>
                 <div class="stat-item px-6 py-5 text-center">
-                    <p class="font-display font-700 text-white text-2xl">8</p>
+                    <p class="font-display font-700 text-white text-2xl">{{ $komponen }}</p>
                     <p class="font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mt-1">Jenis Komponen</p>
                 </div>
                 <div class="px-6 py-5 text-center">

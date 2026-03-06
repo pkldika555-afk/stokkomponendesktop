@@ -9,12 +9,11 @@ use App\Http\Controllers\MasterController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::resource('komponen', MasterController::class)->middleware('auth');
 Route::resource('departemen', DepartemenController::class)->middleware('auth');
