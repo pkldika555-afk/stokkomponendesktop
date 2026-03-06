@@ -102,7 +102,7 @@
                         </div>
                         <div>
                             <label for="password" class="block text-sm font-medium text-gray-300 mb-1.5">
-                                Password <span class="text-rose-400">*</span>
+                                Password (Jika tidak ingin diubah silahkan kosongkan) <span class="text-rose-400">*</span>
                             </label>
                             <input type="password" id="password" name="password" value="{{ old('password') }}"
                                 placeholder="Masukkan password user"
