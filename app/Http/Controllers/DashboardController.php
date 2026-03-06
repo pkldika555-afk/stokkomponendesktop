@@ -64,7 +64,7 @@ class DashboardController extends Controller
 
         // ── Mutasi Terbaru ──────────────────────────────────────────
         $recentMutasi = MutasiBarang::with([
-                            'komponen:id,nama_komponen',
+                            'komponen:id,kode_komponen,nama_komponen', 
                             'departemenAsal:id,nama_departemen',
                             'departemenTujuan:id,nama_departemen',
                         ])
