@@ -10,6 +10,7 @@ use App\Models\User;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use ZanySoft\Zip\Zip;
 
@@ -19,9 +20,9 @@ class BackupController extends Controller
     {
         $stats = [
             'departemen' => Departemen::count(),
-            'komponen' => MasterKomponen::count(),
-            'mutasi' => MutasiBarang::count(),
-            'users' => User::count(),
+            'komponen'   => MasterKomponen::count(),
+            'mutasi'     => MutasiBarang::count(),
+            'users'      => User::count(),
             'last_backup' => session('last_backup'),
         ];
         return view('backup.index', compact('stats'));
@@ -31,27 +32,27 @@ class BackupController extends Controller
     {
         $data = [
             'meta' => [
-                'app' => config('app.name'),
-                'version' => '1.0',
+                'app'        => config('app.name'),
+                'version'    => '1.0',
                 'created_at' => now()->toISOString(),
-                'total' => [
+                'total'      => [
                     'departemen' => Departemen::count(),
-                    'komponen' => MasterKomponen::count(),
-                    'mutasi' => MutasiBarang::count(),
-                    'users' => User::count(),
+                    'komponen'   => MasterKomponen::count(),
+                    'mutasi'     => MutasiBarang::count(),
+                    'users'      => User::count(),
                 ],
             ],
-            'users' => User::all()->makeVisible(['password', 'remember_token'])->toArray(),
+            'users'      => User::all()->makeVisible(['password', 'remember_token'])->toArray(),
             'departemen' => Departemen::all()->toArray(),
-            'komponen' => MasterKomponen::all()->toArray(),
-            'mutasi' => MutasiBarang::all()->toArray(),
+            'komponen'   => MasterKomponen::all()->toArray(),
+            'mutasi'     => MutasiBarang::all()->toArray(),
         ];
 
-        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json     = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         $filename = 'backup-' . now()->format('Ymd-His') . '.json';
 
         return response($json, 200, [
-            'Content-Type' => 'application/json',
+            'Content-Type'        => 'application/json',
             'Content-Disposition' => "attachment; filename=\"{$filename}\"",
         ]);
     }
@@ -68,7 +69,6 @@ class BackupController extends Controller
             return back()->withErrors(['backup_file' => $result['error']]);
         }
 
-        // Re-login user yang sedang aktif (karena data users di-replace)
         auth()->loginUsingId(auth()->id());
 
         return back()->with('success', $result['message']);
@@ -97,7 +97,7 @@ class BackupController extends Controller
     private function processRestore($file): array
     {
         $content = file_get_contents($file->getRealPath());
-        $data = json_decode($content, true);
+        $data    = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE || !isset($data['meta'])) {
             return ['error' => 'File backup tidak valid atau rusak.', 'message' => null];
@@ -111,8 +111,7 @@ class BackupController extends Controller
 
         $clean = function (array $row): array {
             foreach (['created_at', 'updated_at'] as $col) {
-                if (!array_key_exists($col, $row))
-                    continue;
+                if (!array_key_exists($col, $row)) continue;
                 $val = $row[$col];
                 if ($val === null || $val === '' || $val === 'null') {
                     $row[$col] = null;
@@ -145,10 +144,10 @@ class BackupController extends Controller
             User::query()->delete();
 
             foreach ($data['users'] as $row) {
-                User::insert($clean($row));
                 if (empty($row['password'])) {
                     $row['password'] = bcrypt('password123');
                 }
+                User::insert($clean($row));
             }
             foreach ($data['departemen'] as $row) {
                 Departemen::insert($clean($row));
@@ -170,20 +169,20 @@ class BackupController extends Controller
         DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         foreach ([
-            ['users', 'id'],
-            ['departemen', 'id'],
+            ['users',           'id'],
+            ['departemen',      'id'],
             ['master_komponen', 'id'],
-            ['mutasi_barang', 'id'],
+            ['mutasi_barang',   'id'],
         ] as [$tbl, $pk]) {
             $max = DB::table($tbl)->max($pk) ?? 0;
             DB::statement("ALTER TABLE `{$tbl}` AUTO_INCREMENT = " . ($max + 1));
         }
 
         $message = "Restore berhasil! " .
-            count($data['users']) . " users, " .
+            count($data['users'])      . " users, " .
             count($data['departemen']) . " departemen, " .
-            count($data['komponen']) . " komponen, " .
-            count($data['mutasi']) . " mutasi dipulihkan.";
+            count($data['komponen'])   . " komponen, " .
+            count($data['mutasi'])     . " mutasi dipulihkan.";
 
         return ['error' => null, 'message' => $message];
     }
@@ -195,10 +194,10 @@ class BackupController extends Controller
             'tahun' => 'required|integer|min:2000|max:' . now()->year,
         ]);
 
-        $bulan = (int) $request->bulan;
-        $tahun = (int) $request->tahun;
+        $bulan     = (int) $request->bulan;
+        $tahun     = (int) $request->tahun;
         $namaBulan = \Carbon\Carbon::createFromDate($tahun, $bulan, 1)->translatedFormat('F_Y');
-        $filename = "Laporan_Gudang_{$namaBulan}.xlsx";
+        $filename  = "Laporan_Gudang_{$namaBulan}.xlsx";
 
         return Excel::download(
             new LaporanExport($bulan, $tahun),
@@ -207,55 +206,55 @@ class BackupController extends Controller
             ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
         );
     }
+
     public function export()
     {
-        $backupDir = storage_path('app/app_data/backup');
-        $imagesDir = storage_path('app/app_data/images');
+        $disk      = Storage::disk('app_data_images');
+        $backupDir = Storage::disk('app_data_backup')->path('');
         File::ensureDirectoryExists($backupDir);
 
         $data = [
-            'meta' => ['created_at' => now()],
+            'meta'     => ['created_at' => now()],
             'komponen' => MasterKomponen::all()->toArray(),
         ];
-        $jsonPath = $backupDir . '/komponen-' . now()->format('Ymd-His') . '.json';
+
+        $jsonPath = $backupDir . 'komponen-' . now()->format('Ymd-His') . '.json';
         file_put_contents($jsonPath, json_encode($data, JSON_PRETTY_PRINT));
 
-        $zipPath = $backupDir . '/backup-' . now()->format('Ymd-His') . '.zip';
+        $zipPath = $backupDir . 'backup-' . now()->format('Ymd-His') . '.zip';
 
-        $zip = new Zip();          // ✅ fix
+        $zip = new Zip();
         $zip->create($zipPath);
         $zip->add($jsonPath);
 
-        if (File::isDirectory($imagesDir)) {
-            foreach (File::files($imagesDir) as $file) {
-                $zip->add($file->getPathname());
-            }
+        foreach ($disk->files() as $file) {
+            $zip->add($disk->path($file));
         }
-        $zip->close();
 
+        $zip->close();
         File::delete($jsonPath);
 
         return response()->download($zipPath, 'backup.zip')
             ->deleteFileAfterSend(true);
     }
-    // export
+
     public function exportImages()
     {
-        $imagesDir = storage_path('app/app_data/images');
-        $backupDir = storage_path('app/app_data/backup');
-
+        $disk      = Storage::disk('app_data_images');
+        $backupDir = Storage::disk('app_data_backup')->path('');
         File::ensureDirectoryExists($backupDir);
 
-        if (!File::isDirectory($imagesDir) || empty(File::files($imagesDir))) {
+        $files = $disk->files();
+        if (empty($files)) {
             return back()->with('error', 'Tidak ada gambar untuk di-export.');
         }
 
-        $zipPath = $backupDir . '/images-' . now()->format('Ymd-His') . '.zip';
+        $zipPath = $backupDir . 'images-' . now()->format('Ymd-His') . '.zip';
 
         $zip = new Zip();
         $zip->create($zipPath);
-        foreach (File::files($imagesDir) as $file) {
-            $zip->add($file->getPathname());
+        foreach ($files as $file) {
+            $zip->add($disk->path($file));
         }
         $zip->close();
 
@@ -263,12 +262,12 @@ class BackupController extends Controller
             ->deleteFileAfterSend(true);
     }
 
-    // import
     public function importImages(Request $request)
     {
         $request->validate(['zip_file' => 'required|mimes:zip|max:51200']);
 
-        $imagesDir = storage_path('app/app_data/images');
+        $disk      = Storage::disk('app_data_images');
+        $imagesDir = $disk->path('');
         File::ensureDirectoryExists($imagesDir);
 
         $zip = new Zip();
@@ -276,7 +275,6 @@ class BackupController extends Controller
         $zip->extract($imagesDir);
         $zip->close();
 
-        // Pindahkan dari subfolder jika ada
         $subFolder = $imagesDir . DIRECTORY_SEPARATOR . 'images';
         if (File::isDirectory($subFolder)) {
             foreach (File::files($subFolder) as $file) {
@@ -291,7 +289,7 @@ class BackupController extends Controller
             File::deleteDirectory($subFolder);
         }
 
-        $count = count(File::files($imagesDir));
+        $count = count($disk->files());
         return back()->with('success', "{$count} gambar berhasil diimport!");
     }
 }

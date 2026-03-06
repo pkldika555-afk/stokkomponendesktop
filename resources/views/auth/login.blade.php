@@ -7,9 +7,7 @@
     <title>Login - Komponen</title>
     <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Dc_9RrAu.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BVDtCyLL.css') }}">
-    <script src="{{ asset('build/assets/app-BnNQtnyF.js') }}" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
@@ -162,7 +160,7 @@
             </span>
 
             <h1 class="font-display font-700 text-white text-2xl tracking-tight">Komponen</h1>
-            <p class="font-mono-custom text-xs text-slate-500 mt-1">v2.0 system</p>
+            <p class="font-mono-custom text-xs text-slate-500 mt-1">v1.0 system</p>
         </div>
 
         <div class="login-card rounded-2xl p-8">

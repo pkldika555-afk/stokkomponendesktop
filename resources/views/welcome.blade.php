@@ -132,7 +132,7 @@
                         <i class="ri-box-3-fill text-white text-sm"></i>
                     </span>
                     <span class="font-display font-700 text-white text-base tracking-tight">Komponen</span>
-                    <span class="font-mono-custom text-[10px] text-slate-600 hidden sm:inline">v2.0</span>
+                    <span class="font-mono-custom text-[10px] text-slate-600 hidden sm:inline">v1.0</span>
                 </a>
 
                 <div class="flex items-center gap-3">

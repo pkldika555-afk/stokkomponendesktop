@@ -57,9 +57,19 @@ return [
         ],
         'app_data_images' => [
             'driver' => 'local',
-            'root' => storage_path('app' . DIRECTORY_SEPARATOR . 'app_data' . DIRECTORY_SEPARATOR . 'images'),
-            'url' => env('APP_URL') . '/app_data/images',
+            'root' => env(
+                'STORAGE_IMAGES_PATH',
+                storage_path('app' . DIRECTORY_SEPARATOR . 'app_data' . DIRECTORY_SEPARATOR . 'images')
+            ),
+            'url' => env('APP_URL') . '/images',
             'visibility' => 'public',
+        ],
+        'app_data_backup' => [
+            'driver' => 'local',
+            'root' => env(
+                'STORAGE_BACKUP_PATH',
+                storage_path('app' . DIRECTORY_SEPARATOR . 'app_data' . DIRECTORY_SEPARATOR . 'backup')
+            ),
         ],
 
     ],

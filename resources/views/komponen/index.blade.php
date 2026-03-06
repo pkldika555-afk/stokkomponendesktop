@@ -255,7 +255,7 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         @if($k->gambar && Storage::disk('app_data_images')->exists($k->gambar))
-                                            <img src="{{ $k->gambar_url }}" alt="{{ $k->kode_komponen }}"
+                                            <img src="{{ $k->gambar_url }} "  alt="{{ $k->kode_komponen  }}"
                                                 class="w-20 h-20 object-cover rounded-lg" loading="lazy">
                                         @else
                                             <div class="no-image-placeholder">

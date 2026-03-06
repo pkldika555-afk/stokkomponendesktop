@@ -88,7 +88,6 @@ class MasterController extends Controller
             }
 
             $filename = Str::slug($komponen->kode_komponen) . '-' . time() . '.' . $request->gambar->extension();
-            '.' . $request->gambar->extension();
             $request->gambar->storeAs('', $filename, 'app_data_images');
             $komponen->update(['gambar' => $filename]);
         }
@@ -99,5 +98,15 @@ class MasterController extends Controller
         $komponen = MasterKomponen::findOrFail($id);
         $komponen->delete();
         return redirect()->route('komponen.index')->with('success', 'Data berhasil dihapus');
+    }
+    public function showImage($filename)
+    {
+        $disk = Storage::disk('app_data_images');
+
+        if (!$disk->exists($filename)) {
+            abort(404);
+        }
+
+        return response()->file($disk->path($filename));
     }
 }

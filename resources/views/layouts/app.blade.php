@@ -11,9 +11,7 @@
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/select2.min.css') }}">
     -->
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Dc_9RrAu.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BVDtCyLL.css') }}">
-    <script src="{{ asset('build/assets/app-BnNQtnyF.js') }}" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
             font-family: 'DM Sans', sans-serif;
@@ -320,8 +318,9 @@
                         <i class="ri-box-3-fill text-white"></i>
                     </span>
                     <div>
-                        <p class="font-display font-700 text-white text-base leading-none tracking-tight">{{ $appConfig['app_judul'] ?? 'Komponen' }}</p>
-                        <p class="font-mono-custom text-xs text-slate-500 mt-0.5">v2.0 system</p>
+                        <p class="font-display font-700 text-white text-base leading-none tracking-tight">
+                            {{ $appConfig['app_judul'] ?? 'Komponen' }}</p>
+                        <p class="font-mono-custom text-xs text-slate-500 mt-0.5">v1.0 system</p>
                     </div>
                 </a>
             </div>
@@ -356,14 +355,14 @@
                 @if (Auth::user()->role === 'admin')
                     <a href="/user"
                         class="sidebar__link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-                                   {{ request()->is('user*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
+                                       {{ request()->is('user*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
                         <i
                             class="ri-user-line text-base {{ request()->is('user*') ? 'text-white' : 'text-slate-500 group-hover:text-sky-400' }} transition-colors"></i>
                         <span>Master User</span>
                     </a>
                     <a href="/komponen"
                         class="sidebar__link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-                                   {{ request()->is('komponen*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
+                                       {{ request()->is('komponen*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
                         <i
                             class="ri-cpu-line text-base {{ request()->is('komponen*') ? 'text-white' : 'text-slate-500 group-hover:text-sky-400' }} transition-colors"></i>
                         <span>Master Komponen</span>
@@ -371,7 +370,7 @@
 
                     <a href="/departemen"
                         class="sidebar__link group flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200
-                                   {{ request()->is('departemen*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
+                                       {{ request()->is('departemen*') ? 'active-link text-white' : 'text-slate-400 hover:text-white hover:bg-slate-800/70' }}">
                         <i
                             class="ri-community-fill text-base {{ request()->is('departemen*') ? 'text-white' : 'text-slate-500 group-hover:text-sky-400' }} transition-colors"></i>
                         <span>Departemen</span>

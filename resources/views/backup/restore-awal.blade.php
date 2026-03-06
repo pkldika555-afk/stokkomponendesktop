@@ -7,9 +7,7 @@
     <title>Restore Data - Komponen</title>
     <link rel="stylesheet" href="{{ asset('assets/css/remixicon.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/font.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Dc_9RrAu.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BVDtCyLL.css') }}">
-    <script src="{{ asset('build/assets/app-BnNQtnyF.js') }}" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="{{ asset('js/sweetalert.js') }}"></script>
     <style>
         body {
