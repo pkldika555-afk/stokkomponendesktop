@@ -13,7 +13,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // ── Stat Cards ─────────────────────────────────────────────
         $totalKomponen   = MasterKomponen::count();
         $totalDepartemen = Departemen::count();
 
@@ -21,17 +20,15 @@ class DashboardController extends Controller
                                         ->whereYear('tanggal',  now()->year)
                                         ->count();
 
-        // Komponen yang stoknya di bawah stok_minimal
         $stokRendah      = MasterKomponen::whereColumn('stok', '<', 'stok_minimal')->count();
 
-        // ── Chart: Mutasi 6 Bulan Terakhir ─────────────────────────
         $chartMasuk  = [];
         $chartKeluar = [];
         $chartLabels = [];
 
         for ($i = 5; $i >= 0; $i--) {
             $bulan = now()->subMonths($i);
-            $chartLabels[] = $bulan->translatedFormat('F');   // nama bulan (id)
+            $chartLabels[] = $bulan->translatedFormat('F');   
 
             $chartMasuk[] = MutasiBarang::where('jenis', 'masuk')
                 ->whereMonth('tanggal', $bulan->month)
@@ -62,7 +59,6 @@ class DashboardController extends Controller
             'pct'   => round(($m->total / $maxCount) * 100),
         ]);
 
-        // ── Mutasi Terbaru ──────────────────────────────────────────
         $recentMutasi = MutasiBarang::with([
                             'komponen:id,kode_komponen,nama_komponen', 
                             'departemenAsal:id,nama_departemen',
