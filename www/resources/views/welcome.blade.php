@@ -114,6 +114,34 @@
             50%       { transform: translateY(-8px); }
         }
         .floating { animation: float 4s ease-in-out infinite; }
+                * {
+            scrollbar-width: thin;
+            scrollbar-color: #334155 transparent;
+        }
+
+        *::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+
+        }
+
+        *::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+            transition: background 0.2s ease;
+        }
+
+        *::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
+        *::-webkit-scrollbar-corner {
+            background: transparent;
+        }
     </style>
 </head>
 
