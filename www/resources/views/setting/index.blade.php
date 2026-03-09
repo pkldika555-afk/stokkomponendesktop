@@ -43,7 +43,7 @@
 
                 <div>
                     <label class="block font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mb-2">
-                        Roll dashboard (Nama aplikasi yang bergulir di dashboard)
+                        Nama aplikasi (Dashboard)
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -60,7 +60,7 @@
 
                 <div>
                     <label class="block font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mb-2">
-                        NAMA PERUSAHAAN (Nama perusahaan yang bergulir di dashboard)
+                        NAMA PERUSAHAAN
                     </label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
@@ -76,22 +76,22 @@
                 </div>
 
                 <!-- <div>
-                    <label class="block font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mb-2">
-                        Judul di Tabel Komponen
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <i class="ri-table-line text-slate-500 text-sm"></i>
-                        </span>
-                        <input type="text" name="app_judult"
-                               value="{{ old('app_judult', $config['app_judult'] ?? '') }}"
-                               placeholder="Judul tabel komponen..."
-                               class="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-slate-200 placeholder-slate-600 outline-none transition-all duration-200"
-                               style="background:rgba(30,41,59,0.6); border:1px solid rgba(51,65,85,0.8);"
-                               onfocus="this.style.borderColor='#6366f1'; this.style.boxShadow='0 0 0 3px rgba(99,102,241,0.15)'"
-                               onblur="this.style.borderColor='rgba(51,65,85,0.8)'; this.style.boxShadow='none'">
-                    </div>
-                </div> -->
+                        <label class="block font-mono-custom text-[11px] text-slate-500 uppercase tracking-wider mb-2">
+                            Judul di Tabel Komponen
+                        </label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                <i class="ri-table-line text-slate-500 text-sm"></i>
+                            </span>
+                            <input type="text" name="app_judult"
+                                   value="{{ old('app_judult', $config['app_judult'] ?? '') }}"
+                                   placeholder="Judul tabel komponen..."
+                                   class="w-full pl-10 pr-4 py-3 rounded-xl text-sm text-slate-200 placeholder-slate-600 outline-none transition-all duration-200"
+                                   style="background:rgba(30,41,59,0.6); border:1px solid rgba(51,65,85,0.8);"
+                                   onfocus="this.style.borderColor='#6366f1'; this.style.boxShadow='0 0 0 3px rgba(99,102,241,0.15)'"
+                                   onblur="this.style.borderColor='rgba(51,65,85,0.8)'; this.style.boxShadow='none'">
+                        </div>
+                    </div> -->
 
                 <div style="height:1px; background:linear-gradient(90deg, transparent, rgba(99,102,241,0.2), transparent);">
                 </div>
@@ -106,13 +106,13 @@
                         Simpan Perubahan
                     </button>
                     <!-- <button type="reset"
-                            class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white transition-all duration-200"
-                            style="background:rgba(30,41,59,0.6); border:1px solid rgba(51,65,85,0.8);"
-                            onmouseover="this.style.borderColor='rgba(99,102,241,0.4)'; this.style.color='white'"
-                            onmouseout="this.style.borderColor='rgba(51,65,85,0.8)'; this.style.color=''">
-                        <i class="ri-refresh-line text-sm"></i>
-                        Reset
-                    </button> -->
+                                class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-white transition-all duration-200"
+                                style="background:rgba(30,41,59,0.6); border:1px solid rgba(51,65,85,0.8);"
+                                onmouseover="this.style.borderColor='rgba(99,102,241,0.4)'; this.style.color='white'"
+                                onmouseout="this.style.borderColor='rgba(51,65,85,0.8)'; this.style.color=''">
+                            <i class="ri-refresh-line text-sm"></i>
+                            Reset
+                        </button> -->
                 </div>
 
             </form>
