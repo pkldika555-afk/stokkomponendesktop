@@ -144,19 +144,7 @@
             animation-delay: 0.30s;
         }
 
-        @keyframes marquee {
-            from {
-                transform: translateX(0);
-            }
 
-            to {
-                transform: translateX(-50%);
-            }
-        }
-
-        .animate-marquee {
-            animation: marquee 15s linear infinite;
-        }
     </style>
     <div class="text-center mb-6 au d1">
         <div class="text-center mb-6 au d1">
@@ -165,7 +153,7 @@
                 <div class="overflow-hidden whitespace-nowrap mb-1">
                     <span
                         class="inline-block animate-marquee text-[11px] text-slate-500 font-mono-custom uppercase tracking-widest">
-                         {{ $appConfig('app_name') ?? 'Sistem Manajemen Komponen' }}
+                         {{ $appConfig['app_name'] ?? 'Sistem Manajemen Komponen' }}
                     </span>
                 </div>
                 <h2 class="font-display font-700 text-white text-3xl tracking-tight">
