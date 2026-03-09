@@ -1,0 +1,72 @@
+# ============================================
+#   .gitignore - Sistem Komponen Electron App
+# ============================================
+
+# Runtime binaries (PHP, MySQL, Nginx, Node)
+# Download manual, jangan di-push ke git (ratusan MB)
+runtime/
+
+# Hasil build Electron
+dist/
+out/
+
+# Dependency npm electron-app
+node_modules/
+
+# ============================================
+#   Laravel (folder www)
+# ============================================
+
+# Dependency Laravel & npm
+www/vendor/
+www/node_modules/
+
+# File environment (SENSITIF - berisi password!)
+www/.env
+www/.env.backup
+
+# Hasil compile Vite
+www/public/build/
+www/public/hot
+
+# Cache Laravel
+www/storage/framework/cache/data/*
+www/storage/framework/sessions/*
+www/storage/framework/views/*
+www/storage/logs/*
+www/bootstrap/cache/*.php
+
+# Storage upload user (data lokal, bukan kode)
+www/storage/app/app_data/
+
+# ============================================
+#   Misc
+# ============================================
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.suo
+*.user
+
+node/
+
+node/
+
+backupjson_&_gambar/
+
+temp-backup/
+
+Sistem-Komponen-Update.zip
+
+update-package/
+
+electron
+
+sistem-komponen@1.0.0
+
+package-lock.json
