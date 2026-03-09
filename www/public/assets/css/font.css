@@ -1,0 +1,49 @@
+/* Contoh potongan dari custom-fonts.css */
+@font-face {
+  font-family: 'DM Sans';   /* ← harus persis ini */
+  src: url('../fonts/dm-sans/DMSans-Light.woff2') format('woff2'),
+       url('DMSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../fonts/dm-sans/DMSans-Regular.woff2') format('woff2'),
+       url('DMSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ...dan seterusnya untuk 500, italic kalau perlu */
+
+@font-face {
+  font-family: 'Syne';
+  src: url('../fonts/syne/Syne-SemiBold.woff2') format('woff2'),
+       url('Syne-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* dst untuk 700, 800 */
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('../fonts/dm-mono/DMMono-Regular.woff2') format('woff2'),
+       url('DMMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  src: url('../fonts/dm-mono/DMMono-Medium.woff2') format('woff2'),
+       url('DMMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
