@@ -122,8 +122,12 @@ function setupEnv() {
   } else {
     env += `\nSTORAGE_BACKUP_PATH=${backupPathForEnv}`;
   }
-  // ── [END BARU] ─────────────────────────────────────────
-
+  
+if (!env.includes('APP_KEY=base64:')) {
+  const key = require('crypto').randomBytes(32).toString('base64');
+  env = env.replace(/APP_KEY=.*/, `APP_KEY=base64:${key}`);
+  console.log('[ENV] APP_KEY generated');
+}
   fs.writeFileSync(envFile, env);
   console.log('[ENV] .env updated');
   console.log('[ENV] STORAGE_IMAGES_PATH =', imagesPathForEnv); // [BARU]
