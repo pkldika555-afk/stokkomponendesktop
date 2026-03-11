@@ -34,7 +34,7 @@ class UserController extends Controller
         $user = User::create($validate);
         return redirect()->route(route: 'user.index')->with('success', 'Data berhasil ditambahkan');
     }
-    public function edit($id)
+    public function edit($id)   
     {
         $user = User::findOrFail($id);
         return view('user.edit', compact('user'));
