@@ -503,6 +503,7 @@ app.whenReady().then(async () => {
   try {
     checkBinaries();
     setupEnv();
+    fixPhpIni();
     await startMySQL();
     await firstTimeSetup();
     await startFPM();
